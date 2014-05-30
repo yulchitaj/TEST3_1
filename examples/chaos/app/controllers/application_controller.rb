@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Methods'] = 'GET'
 
+    @PN = PN.instance.pn
+
     @pub_key = params[:pub_key] if params[:pub_key].present?
     @sub_key = params[:sub_key]
     @jsonp = params[:jsonp]

@@ -2,10 +2,11 @@ require 'singleton'
 require 'pubnub'
 
 class PN
-
   include Singleton
 
   def initialize
+
+    @sub_q = []
 
     @pn = Pubnub.new(
         :subscribe_key    => 'demo',
@@ -18,12 +19,32 @@ class PN
           puts "CONNECTED: #{msg.inspect}"
         }
     )
-  end
 
-  def time
-
-    @pn.time(:http_sync => true)
+    @pn.subscribe(:http_sync => false, :channel => "a", :callback => method(:sub_callback))
 
   end
-  # To change this template use File | Settings | File Templates.
+
+  def pn
+    @pn
+  end
+
+  def sub_callback(envelope)
+    while @block
+      sleep(0.1)
+    end
+    @sub_q.push(envelope.message)
+  end
+
+  def fetch_ready?
+    @sub_q.length > 0
+  end
+
+  def fetch_q
+    temp_q = @sub_q.clone
+    @block = true
+    @sub_q = []
+    @block = false
+    temp_q
+  end
+
 end
