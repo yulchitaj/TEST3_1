@@ -20,7 +20,7 @@ class PN
         }
     )
 
-    @pn.subscribe(:http_sync => false, :channel => "a", :callback => method(:sub_callback))
+    @pn.subscribe(:http_sync => false, :channel => "chaos_admin", :callback => method(:sub_callback))
 
   end
 
@@ -29,6 +29,12 @@ class PN
   end
 
   def sub_callback(envelope)
+
+    if envelope.message["type"] == "admin"
+      if envelope.message["action"] == "subscribe"
+        @pn.subscribe(:http_sync => false, :channel => envelope.message["channel"], :callback => method(:sub_callback))
+      end
+    end
     while @block
       sleep(0.1)
     end
