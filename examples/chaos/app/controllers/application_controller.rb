@@ -8,16 +8,19 @@ class ApplicationController < ActionController::Base
 
   def set_pn_vars
 
-    response.headers['Access-Control-Allow-Origin:'] = '*'
-    response.headers['Access-Control-Allow-Methods:'] = 'GET'
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET'
 
-    @pub_key = params[:pub_key]
+    @pub_key = params[:pub_key] if params[:pub_key].present?
     @sub_key = params[:sub_key]
     @jsonp = params[:jsonp]
-    @timetoken = params[:timetoken].to_i
-    @channels = params[:channels].split(",")
+    @timetoken = params[:timetoken].to_i if params[:timetoken].present?
+    @channels = params[:channels].split(",") if params[:channels].present?
 
+    @uuid = params[:uuid]
+    @pnsdk = params[:pnsdk]
 
+    @PNTIME = "%.10i" % (Time.now.to_f * 10000000)
 
   end
 

@@ -1,7 +1,7 @@
 Chaos::Application.routes.draw do
 
   get 'subscribe/:sub_key/:channels/:jsonp/:timetoken' => 'subscriber#subscribe'
-
+  get 'time/:jsonp' => 'timer#time'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
