@@ -11,7 +11,8 @@ class SubscriberController < ApplicationController
 
   def make_msg(timetoken, messages = [])
     if timetoken == 0
-      timetoken = (Time.now.to_i * 10000000).to_s
+      t = Time.now
+      timetoken = "%.10i" % (t.to_f * 10000000)
     end
     msg = [ messages, timetoken.to_s].to_json
   end
