@@ -22,7 +22,7 @@ class PN
 
     @pn.subscribe(:http_sync => false, :channel => "chaos_admin", :callback => method(:admin_sub_callback))
 
-    primer = {"type" => "admin", "output" => "sub", "from" => {"ch" => "bot"}}
+    primer = {"type" => "admin", "output" => "sub", "to" => {"ch" => "bot"}}
     @pn.publish(:http_sync => true, :message => primer, :channel => "chaos_admin")
 
   end
@@ -40,12 +40,12 @@ class PN
 
         #             {"type":"admin", "output":"sub", "from":{"ch":"bot"}}
 
-        if envelope.message["from"]["ch"].present?
+        if envelope.message["to"]["ch"].present?
 
 
-          @pn.subscribe(:http_sync => false, :channel => envelope.message["from"]["ch"], :callback => method(:package_for_q))
+          @pn.subscribe(:http_sync => false, :channel => envelope.message["to"]["ch"], :callback => method(:package_for_q))
           #           Send a literal array
-          #           {"type":"admin", "output":"sub", "from":{"fragment":"[1,2,3]"}}
+          #           {"type":"admin", "output":"sub", "to":{"fragment":"[1,2,3]"}}
 
         elsif envelope.message["from"]["fragment"].present?
 
