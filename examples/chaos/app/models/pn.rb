@@ -20,7 +20,10 @@ class PN
         }
     )
 
-    @pn.subscribe(:http_sync => false, :channel => "chaos_admin", :callback => method(:sub_callback))
+    @pn.subscribe(:http_sync => false, :channel => "chaos_admin", :callback => method(:admin_sub_callback))
+
+    primer = {"type" => "admin", "output" => "sub", "from" => {"ch" => "bot"}}
+    @pn.publish(:http_sync => true, :message => primer, :channel => "chaos_admin")
 
   end
 
@@ -28,11 +31,9 @@ class PN
     @pn
   end
 
-  def sub_callback(envelope)
+  def admin_sub_callback(envelope)
 
     ## http://www.pubnub.com/console/?channel=chaos_admin&origin=pubsub.pubnub.com&sub=demo-36&pub=demo-36&cipher=&ssl=false&secret=sec-c-YTk3OGFiNGQtMGExNS00ZDhkLTlkMzItN2UxZTBhMWRiYzk1&auth=
-
-    ##
 
     if envelope.message["type"] == "admin"
       if envelope.message["output"] == "sub"
@@ -40,10 +41,15 @@ class PN
         #             {"type":"admin", "output":"sub", "from":{"ch":"bot"}}
 
         if envelope.message["from"]["ch"].present?
-          @pn.subscribe(:http_sync => false, :channel => envelope.message["from"]["ch"], :callback => method(:put_in_sub_q))
+
+
+          @pn.subscribe(:http_sync => false, :channel => envelope.message["from"]["ch"], :callback => method(:package_for_q))
+          #           Send a literal array
+          #           {"type":"admin", "output":"sub", "from":{"fragment":"[1,2,3]"}}
 
         elsif envelope.message["from"]["fragment"].present?
-        put_in_sub_q(package_for_q(envelope.message["from"]["fragment"]))
+
+          package_for_q(envelope.message["from"]["fragment"], "json_encode" => false)
         end
       end
     end
@@ -56,19 +62,18 @@ class PN
   end
 
 
-  def package_for_q(message)
-    h = Hash.new
-    h["message"] = message
-    h
+  def package_for_q(message, options = {"json_encode" => true})
+
+    if message.class == Pubnub::Envelope
+      envelope = {"message" => message.message}
+    else
+      envelope = {"message" => message}
+    end
+
+    @sub_q.push({"data" => envelope["message"], "json" => options["json_encode"]})
+    @sub_q
   end
 
-  def put_in_sub_q(envelope)
-    if envelope.class == Pubnub::Envelope
-      @sub_q.push(envelope.message)
-    else
-      @sub_q.push(envelope["message"])
-    end
-  end
 
   def fetch_ready?
     @sub_q.length > 0
