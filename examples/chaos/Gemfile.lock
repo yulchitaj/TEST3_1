@@ -58,8 +58,8 @@ GEM
       daemon_controller (>= 1.2.0)
       rack
       rake (>= 0.8.1)
-    polyglot (0.3.4)
-    pubnub (3.6.2)
+    polyglot (0.3.5)
+    pubnub (3.5.5)
       eventmachine
       json
       net-http-persistent
