@@ -23,7 +23,7 @@ class PN
     @pn.subscribe(:http_sync => false, :channel => "chaos_admin", :callback => method(:admin_sub_callback))
 
     primer = {"type" => "admin", "output" => "sub", "to" => {"ch" => "bot"}}
-    @pn.publish(:http_sync => true, :message => primer, :channel => "chaos_admin")
+    #@pn.publish(:http_sync => true, :message => primer, :channel => "chaos_admin")
 
   end
 
@@ -38,25 +38,41 @@ class PN
     if envelope.message["type"] == "admin"
       if envelope.message["output"] == "sub"
 
-        #             {"type":"admin", "output":"sub", "from":{"ch":"bot"}}
+        #             {"type":"admin", "output":"sub", "to":{"ch":"bot"}}
 
-        if envelope.message["to"]["ch"].present?
+        if envelope.message["to"].present?
+
+          if envelope.message["to"]["ch"].present?
 
 
           @pn.subscribe(:http_sync => false, :channel => envelope.message["to"]["ch"], :callback => method(:package_for_q))
           #           Send a literal array
           #           {"type":"admin", "output":"sub", "to":{"fragment":"[1,2,3]"}}
+          end
 
         elsif envelope.message["from"]["fragment"].present?
 
+          # Good Literals
+
+          #           {"type":"admin", "output":"sub", "from":{"fragment":"[1,2,3]"}}
+          #           [1,2,3]
+
+          #           {"type":"admin", "output":"sub", "from":{"fragment":"[\"1\",2,3]"}}
+          #           ["1",2,3]
+
+          #           {"type":"admin", "output":"sub", "from":{"fragment":"\"pizza\""}}
+          #           "pizza"
+
+          #           {"type":"admin", "output":"sub", "from":{"fragment":"{\"b\":\"t\"}"}}
+          #           {"b":"t"}
+
+
           package_for_q(envelope.message["from"]["fragment"], "json_encode" => false)
+
         end
+
       end
-    end
 
-
-    while @block
-      sleep(0.1)
     end
 
   end
@@ -70,8 +86,13 @@ class PN
       envelope = {"message" => message}
     end
 
+    while @block
+      sleep(0.1)
+    end
+
     @sub_q.push({"data" => envelope["message"], "json" => options["json_encode"]})
     @sub_q
+
   end
 
 
@@ -80,9 +101,8 @@ class PN
   end
 
   def fetch_q
-    temp_q = @sub_q.clone
     @block = true
-    @sub_q = []
+    temp_q = @sub_q.pop
     @block = false
     temp_q
   end

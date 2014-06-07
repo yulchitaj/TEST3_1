@@ -5,7 +5,14 @@ class SubscriberController < ApplicationController
       sleep(0.25)
     end
 
-    render :js => make_msg
+    r = make_msg
+
+    if r["json"]
+      render :js => r["payload"]
+    else
+      render :js => r["payload"]
+    end
+
 
    end
 
@@ -18,6 +25,17 @@ class SubscriberController < ApplicationController
 
     #t = @PN.time(:http_sync => true)
 
-    [messages, timetoken.to_s].to_json
+
+    d = messages["data"]
+    tt = timetoken.to_s
+    json = messages["json"]
+
+    if json
+      {"payload" =>  [ [    d    ] ,     tt    ].to_json, "json" => json}
+    else
+      {"payload" => "[ [" + d + "] , " + tt + "]" ,       "json" => json.to_s + "]" }
+    end
+
+
   end
 end
