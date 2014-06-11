@@ -27,6 +27,8 @@ class PnResponse < ActiveRecord::Base
                           500, 501, 502, 503, 504, 505, 506, 507, 508, 509,
                           510, 511, 520, 521, 522, 523, 524, 598, 599]
 
+  @mx_channel_proper = true
+
 
 
 end

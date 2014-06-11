@@ -18,14 +18,26 @@ class SubscriberController < ApplicationController
 
     #t = @PN.time(:http_sync => true)
 
-    d = messages["data"]
+    puts "Channels: #{@channels}"
+
+    d = messages["data"]["message"]
+    ch = messages["data"]["channel"]
+
     tt = timetoken.to_s
     json = messages["json"]
 
     if json
-      {"payload" =>  [ [    d    ] ,     tt    ].to_json, "json" => json}
+      if @channels.length > 1
+        {"payload" =>  [ [    d    ] ,     tt, ch    ].to_json, "json" => json}
+      else
+        {"payload" =>  [ [    d    ] ,     tt    ].to_json, "json" => json}
+      end
+
+
     else
+
       {"payload" => "[ [" + d + "] , " + tt + "]" ,       "json" => json.to_s + "]" }
+
     end
 
   end

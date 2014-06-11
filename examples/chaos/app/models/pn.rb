@@ -81,7 +81,7 @@ class PN
   def package_for_q(message, options = {"json_encode" => true})
 
     if message.class == Pubnub::Envelope
-      envelope = {"message" => message.message}
+      envelope = {"message" => message.message, "channel" => message.channel}
     else
       envelope = {"message" => message}
     end
@@ -90,7 +90,9 @@ class PN
       sleep(0.1)
     end
 
-    @sub_q.push({"data" => envelope["message"], "json" => options["json_encode"]})
+    response_data = {"data" => envelope, "json" => options["json_encode"]}
+
+    @sub_q.push(response_data)
     @sub_q
 
   end
