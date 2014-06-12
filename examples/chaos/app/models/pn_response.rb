@@ -1,13 +1,11 @@
-class PnResponse < ActiveRecord::Base
+module PnResponse
 
 
   ######### Headers #########
 
-  @required_headers = [
-      { 'Access-Control-Allow-Origin' => '*',
+  CORS_HEADERS = { 'Access-Control-Allow-Origin' => '*',
         'Access-Control-Allow-Methods' => 'GET'
       }
-  ]
 
   # TODO: Override HTTP 1.0 and 1.1
 

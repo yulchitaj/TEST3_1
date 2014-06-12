@@ -6,6 +6,8 @@ class PN
 
   def initialize
 
+    load_run_modes
+
     @sub_q = []
 
     @pn = Pubnub.new(
@@ -27,6 +29,22 @@ class PN
 
   end
 
+
+  def load_run_modes
+
+    @RUN_MODE_CORS_HEADERS = {
+        :enabled => true,
+        :options => PnResponse::CORS_HEADERS
+    }
+
+  end
+
+  def run_modes
+
+    { :CORS_HEADERS => @RUN_MODE_CORS_HEADERS }
+
+  end
+
   def pn
     @pn
   end
@@ -36,7 +54,21 @@ class PN
     ## http://www.pubnub.com/console/?channel=chaos_admin&origin=pubsub.pubnub.com&sub=demo-36&pub=demo-36&cipher=&ssl=false&secret=sec-c-YTk3OGFiNGQtMGExNS00ZDhkLTlkMzItN2UxZTBhMWRiYzk1&auth=
 
     if envelope.message["type"] == "admin"
-      if envelope.message["output"] == "sub"
+
+      if envelope.message["run_mode"]
+
+        if envelope.message["run_mode"]["get"].present?
+
+          # {"type":"admin", "run_mode":{"get":"true"}}
+
+          @pn.publish(:http_sync => false, :message => run_modes, :channel => "chaos_admin") do |x|
+            puts x
+        end
+
+        end
+
+
+      elif envelope.message["output"] == "sub"
 
         #             {"type":"admin", "output":"sub", "to":{"ch":"bot"}}
 

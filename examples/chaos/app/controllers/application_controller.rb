@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
     response.headers['Access-Control-Allow-Methods'] = 'GET'
 
     @PN = PN.instance.pn
+    @RUN_MODES = PN.instance.run_modes
 
     @pub_key = params[:pub_key] if params[:pub_key].present?
     @sub_key = params[:sub_key]
@@ -25,5 +26,8 @@ class ApplicationController < ActionController::Base
     @PNTIME = "%.10i" % (Time.now.to_f * 10000000)
 
   end
+
+
+
 
 end
