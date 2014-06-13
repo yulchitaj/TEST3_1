@@ -32,7 +32,7 @@ class PN
 
   def load_run_modes
 
-    @RUN_MODE_CORS_HEADERS = {
+    @CORS_HEADERS = {
         :enabled => true,
         :options => PnResponse::CORS_HEADERS
     }
@@ -41,7 +41,7 @@ class PN
 
   def run_modes
 
-    { :CORS_HEADERS => @RUN_MODE_CORS_HEADERS }
+    {:CORS_HEADERS => @CORS_HEADERS}
 
   end
 
@@ -57,18 +57,10 @@ class PN
 
       if envelope.message["run_mode"]
 
-        if envelope.message["run_mode"]["get"].present?
-
-          # {"type":"admin", "run_mode":{"get":"true"}}
-
-          @pn.publish(:http_sync => false, :message => run_modes, :channel => "chaos_admin") do |x|
-            puts x
-        end
-
-        end
+        handle_run_mode(envelope)
 
 
-      elif envelope.message["output"] == "sub"
+        elsif envelope.message["output"] == "sub"
 
         #             {"type":"admin", "output":"sub", "to":{"ch":"bot"}}
 
@@ -77,9 +69,9 @@ class PN
           if envelope.message["to"]["ch"].present?
 
 
-          @pn.subscribe(:http_sync => false, :channel => envelope.message["to"]["ch"], :callback => method(:package_for_q))
-          #           Send a literal array
-          #           {"type":"admin", "output":"sub", "to":{"fragment":"[1,2,3]"}}
+            @pn.subscribe(:http_sync => false, :channel => envelope.message["to"]["ch"], :callback => method(:package_for_q))
+            #           Send a literal array
+            #           {"type":"admin", "output":"sub", "to":{"fragment":"[1,2,3]"}}
           end
 
         elsif envelope.message["from"]["fragment"].present?
@@ -106,6 +98,51 @@ class PN
       end
 
     end
+
+  end
+
+
+  def handle_run_mode(envelope)
+
+    if envelope.message["run_mode"]["get"].present?
+
+      # {"type":"admin", "run_mode":{"get":"true"}}
+
+      @pn.publish(:http_sync => false, :message => run_modes, :channel => "chaos_admin") do |x|
+        puts x
+      end
+
+    elsif envelope.message["run_mode"]["set"].present?
+
+      if envelope.message["run_mode"]["set"]
+
+        if envelope.message["mode"]
+
+
+          # {"type":"admin", "run_mode":"set", "mode":"CORS_HEADERS", "value":false}
+
+          toggle_run_mode(envelope.message["mode"], envelope.message["value"])
+
+        end
+
+      end
+
+    end
+  end
+
+
+  def toggle_run_mode(mode, value)
+    if mode.present? && instance_variable_defined?("@#{mode}")
+
+      i = instance_variable_get("@#{mode}")
+      i[:enabled] = value
+
+      @pn.publish(:http_sync => false, :message => run_modes, :channel => "chaos_admin") do |x|
+        puts x
+      end
+
+    end
+
 
   end
 
