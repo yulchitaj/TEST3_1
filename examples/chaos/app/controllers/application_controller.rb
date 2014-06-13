@@ -1,15 +1,12 @@
 class ApplicationController < ActionController::Base
 
-  before_filter :set_pn_vars
+  before_filter :set_pn_vars, :enforce_modes
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
   def set_pn_vars
-
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'GET'
 
     @PN = PN.instance.pn
     @RUN_MODES = PN.instance.run_modes
@@ -27,6 +24,15 @@ class ApplicationController < ActionController::Base
 
   end
 
+
+  def enforce_modes
+
+    if @RUN_MODES[:CORS_HEADERS][:enabled]
+      response.headers['Access-Control-Allow-Origin'] = '*'
+      response.headers['Access-Control-Allow-Methods'] = 'GET'
+    end
+
+  end
 
 
 
