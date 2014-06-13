@@ -15,11 +15,8 @@ class SubscriberController < ApplicationController
     messages = PN.instance.fetch_q
 
     timetoken = @PNTIME
-    puts "RUNMODE: #{@RUN_MODE}"
 
     #t = @PN.time(:http_sync => true)
-
-    puts "Channels: #{@channels}"
 
     d = messages["data"]["message"]
     ch = messages["data"]["channel"]

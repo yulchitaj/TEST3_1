@@ -50,6 +50,7 @@ class PN
   end
 
   def admin_sub_callback(envelope)
+    puts("***** DATA! : #{envelope}")
 
     ## http://www.pubnub.com/console/?channel=chaos_admin&origin=pubsub.pubnub.com&sub=demo-36&pub=demo-36&cipher=&ssl=false&secret=sec-c-YTk3OGFiNGQtMGExNS00ZDhkLTlkMzItN2UxZTBhMWRiYzk1&auth=
 
@@ -149,20 +150,23 @@ class PN
 
   def package_for_q(message, options = {"json_encode" => true})
 
+    puts "package for q: message: #{message.message}"
+
     if message.class == Pubnub::Envelope
       envelope = {"message" => message.message, "channel" => message.channel}
     else
       envelope = {"message" => message}
     end
 
-    while @block
-      sleep(0.1)
-    end
+    #while @block
+    #  sleep(0.1)
+    #end
 
     response_data = {"data" => envelope, "json" => options["json_encode"]}
 
     @sub_q.push(response_data)
     @sub_q
+    puts "sub_q length is #{@sub_q.length}   "
 
   end
 
@@ -172,10 +176,16 @@ class PN
   end
 
   def fetch_q
-    @block = true
-    temp_q = @sub_q.pop
-    @block = false
-    temp_q
+#    @block = true
+#    temp_q = @sub_q.pop
+#    @block = false
+#    temp_q
+
+#    newq = @sub_q.map {|item| item }
+#    newq.pop
+
+    @sub_q.pop
+
   end
 
 end
