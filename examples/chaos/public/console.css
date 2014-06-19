@@ -1,0 +1,47 @@
+#deviceOutput {
+    display: block;
+    margin-top: 10px;
+}
+
+.stats {
+    display: inline;
+    color: blue;
+}
+
+.label {
+    font-family: "Courier New";
+    display: block;
+    margin-top: 5px;
+}
+
+.deviceNextStep {
+    border-top-style: solid;
+    border-bottom-style: solid;
+
+    border-color: black;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: red;
+}
+
+#serverOperations {
+    display: block;
+    margin-top: 200px;
+}
+
+.serverNextStep {
+    border-top-style: solid;
+    border-bottom-style: solid;
+
+    border-color: green;
+    color: brown;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#runtimeError {
+    color: red;
+    font-weight: bolder;
+}
