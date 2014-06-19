@@ -4,15 +4,25 @@
     <link rel="stylesheet" type="text/css" href="console.css">
     <script src=https://cdn.pubnub.com/pubnub.js></script>
     <script src=http://code.jquery.com/jquery-1.11.0.min.js></script>
+
     <script src=console.js></script>
 
 </head>
 <body>
 
+<script src="moment.js"></script>
+<script>
+    moment().format();
+</script>
+
 
 <div id="subChannelsLabel"></div>
-<div id="input">
+<div id="subInput">
     <input size=100 id="subChannels" onchange='subscribeFromInput()'></textarea>
+</div>
+
+<div id="subOutputDiv">
+    <textarea id="subOutputTextarea" rows=20 cols="100"></textarea>
 </div>
 
 <script>

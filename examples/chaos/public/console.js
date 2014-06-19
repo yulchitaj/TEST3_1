@@ -55,6 +55,7 @@ function subscribe(ch) {
         "channel" : ch,
         "callback": function(m,e,c) {
             console.log("Received: " + m);
+            $("#subOutputTextarea").append( moment().format('MM-D-YY hh:mm:ss') + "(" + c + ") :" + m + "\r\n");
         },
         "connect": function (channel) {
             activeChannels.push(channel);
