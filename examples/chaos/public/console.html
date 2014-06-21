@@ -21,8 +21,25 @@
     <input size=100 id="subChannels" onchange='subscribeFromInput()'></textarea>
 </div>
 
-<div id="subOutputDiv">
-    <textarea id="subOutputTextarea" rows=20 cols="100"></textarea>
+<div id="outputs">
+
+    <div class="outputs" id="subOutputDiv">
+        <textarea id="subOutputTextarea" rows=20 cols="75"></textarea>
+    </div>
+
+    <div class="outputs" id="errorOutputDiv">
+        <textarea id="errorOutputTextarea" rows=20 cols="75"></textarea>
+    </div>
+
+</div>
+
+<div class="testDiv">Single Channel Tests
+    <div class="test">Get Config</div>
+    <button onclick="getConfig()">Get Config</button>
+
+    <div class="test">Toggle CORS</div>
+    <button onclick="toggleCors()">Enable CORS</button>
+    <button onclick="toggleCors()">Disable CORS</button>
 </div>
 
 <script>

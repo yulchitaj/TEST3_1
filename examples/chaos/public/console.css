@@ -1,12 +1,15 @@
-#deviceOutput {
-    display: block;
-    margin-top: 10px;
-}
-
-.stats {
+.testDiv {
     display: inline;
     color: blue;
+    font-size: 28px;
 }
+
+.test {
+    display: block;
+    color: blue;
+    font-size: 18px;
+}
+
 
 .label {
     font-family: "Courier New";
@@ -14,34 +17,6 @@
     margin-top: 5px;
 }
 
-.deviceNextStep {
-    border-top-style: solid;
-    border-bottom-style: solid;
-
-    border-color: black;
-
-    margin-top: 20px;
-    margin-bottom: 20px;
-    color: red;
-}
-
-#serverOperations {
-    display: block;
-    margin-top: 200px;
-}
-
-.serverNextStep {
-    border-top-style: solid;
-    border-bottom-style: solid;
-
-    border-color: green;
-    color: brown;
-
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-#runtimeError {
-    color: red;
-    font-weight: bolder;
+.outputs {
+    display: inline;
 }

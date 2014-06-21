@@ -1,5 +1,5 @@
-var PUB_KEY = "demo";
-var SUB_KEY = "demo";
+var PUB_KEY = "demo-36";
+var SUB_KEY = "demo-36";
 var SECRET_KEY = "demo";
 
 var deviceUUID = "ChaosAdmin"
@@ -30,6 +30,7 @@ Array.prototype.diff = function(a) {
 
 function subscribeFromInput(){
     var formList =  $("#subChannels").val().split(",");
+    formList.push("chaos_admin");
 
     tempActiveChannels = [];
 
@@ -44,25 +45,62 @@ function subscribeFromInput(){
         pubnub.unsubscribe({"channel":activeChannels});
     }
 
-    subscribe(formList);
+    if (formList.length) {
+        subscribeProxy(formList);
+    }
+
 }
 
-function subscribe(ch) {
+function getConfig(){
+    pubnub.publish({
+        "channel" : "chaos_admin",
+        "message" : {"type":"admin", "run_mode":{"get":"true"}},
+        "callback" : function(m, e, c){
+            console.log("m: " + m)
+        },
+        "error" : function(m, e, c){
+            console.log("m: " + m)
+        }
+    });
+}
 
-    activeChannels = [];
-
+function subscribeLocal(ch) {
     pubnub.subscribe({
-        "channel" : ch,
-        "callback": function(m,e,c) {
+        "channel": ch,
+        "callback": function (m, e, c) {
             console.log("Received: " + m);
-            $("#subOutputTextarea").append( moment().format('MM-D-YY hh:mm:ss') + "(" + c + ") :" + m + "\r\n");
+            if ($("#subOutputTextarea").html().length > 10000) {
+                $("#subOutputTextarea").html("");
+            }
+            $("#subOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[" + c + "] " + JSON.stringify(m) + "\r\n" + $("#subOutputTextarea").html());
+
         },
         "connect": function (channel) {
             activeChannels.push(channel);
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[connect] " + JSON.stringify(channel) + "\r\n" + $("#errorOutputTextarea").html());
             updateSubscribeUI();
         },
-        "error" : deviceError
+        "error": function(er){
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[error] " + JSON.stringify(er) + "\r\n" + $("#errorOutputTextarea").html());
+        }
     });
+}
+function subscribeProxy(ch) {
+
+    activeChannels = [];
+
+    pubnub.publish({
+        "channel" : "chaos_admin",
+        "message" : {"type":"admin", "output":"sub", "to":{"ch": ch}},
+        "callback" : function(m, e, c){
+            console.log("m: " + m)
+        },
+        "error" : function(m, e, c){
+            console.log("m: " + m)
+        }
+    });
+
+    subscribeLocal(ch);
 }
 
 function updateSubscribeUI(){
