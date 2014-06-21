@@ -11,10 +11,6 @@ function log(msg) {
     $("#log").html($("#log").html() + "<br />" + msg);
 }
 
-function deviceError(data) {
-    log("Encountered Error: " + data);
-}
-
 function pnInit() {
 
     pubnub = PUBNUB.init({
@@ -30,7 +26,6 @@ Array.prototype.diff = function(a) {
 
 function subscribeFromInput(){
     var formList =  $("#subChannels").val().split(",");
-    formList.push("chaos_admin");
 
     tempActiveChannels = [];
 
@@ -52,19 +47,21 @@ function subscribeFromInput(){
 }
 
 function getConfig(){
+
     pubnub.publish({
         "channel" : "chaos_admin",
         "message" : {"type":"admin", "run_mode":{"get":"true"}},
         "callback" : function(m, e, c){
-            console.log("m: " + m)
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
         },
         "error" : function(m, e, c){
-            console.log("m: " + m)
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigError] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
         }
     });
 }
 
 function subscribeLocal(ch) {
+
     pubnub.subscribe({
         "channel": ch,
         "callback": function (m, e, c) {
@@ -72,18 +69,26 @@ function subscribeLocal(ch) {
             if ($("#subOutputTextarea").html().length > 10000) {
                 $("#subOutputTextarea").html("");
             }
-            $("#subOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[" + c + "] " + JSON.stringify(m) + "\r\n" + $("#subOutputTextarea").html());
+            if (ch == "chaos_admin") {
+                $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[" + c + "] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
+            } else {
+                $("#subOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[" + c + "] " + JSON.stringify(m) + "\r\n\r\n" + $("#subOutputTextarea").html());
+            }
 
         },
         "connect": function (channel) {
             activeChannels.push(channel);
-            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[connect] " + JSON.stringify(channel) + "\r\n" + $("#errorOutputTextarea").html());
             updateSubscribeUI();
+
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[connect] " + JSON.stringify(channel) + "\r\n\r\n" + $("#errorOutputTextarea").html());
+
         },
         "error": function(er){
-            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[error] " + JSON.stringify(er) + "\r\n" + $("#errorOutputTextarea").html());
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[error] " + JSON.stringify(er) + "\r\n\r\n" + $("#errorOutputTextarea").html());
         }
     });
+
+
 }
 function subscribeProxy(ch) {
 
@@ -101,6 +106,8 @@ function subscribeProxy(ch) {
     });
 
     subscribeLocal(ch);
+    subscribeLocal("chaos_admin");
+
 }
 
 function updateSubscribeUI(){
