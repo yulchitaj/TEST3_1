@@ -7,6 +7,8 @@ gem 'rails', '4.0.0'
 gem 'sqlite3'
 gem 'passenger'
 gem 'pubnub'
+gem 'packetfu'
+
 #gem 'rails-observers'
 
 # Use SCSS for stylesheets

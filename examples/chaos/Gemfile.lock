@@ -54,6 +54,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.10.1)
     net-http-persistent (2.9.4)
+    packetfu (1.1.10)
     passenger (4.0.44)
       daemon_controller (>= 1.2.0)
       rack
@@ -121,6 +122,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   jbuilder (~> 1.2)
   jquery-rails
+  packetfu
   passenger
   pubnub
   rails (= 4.0.0)

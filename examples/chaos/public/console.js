@@ -56,7 +56,7 @@ function subscribeLocal(ch) {
                 $("#subOutputTextarea").html("");
             }
             if (ch == "chaos_admin") {
-                $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[" + c + "] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
+                $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[" + c + "] " + JSON.stringify(m, null, "\t") + "\r\n\r\n" + $("#errorOutputTextarea").html());
             } else {
                 $("#subOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[" + c + "] " + JSON.stringify(m) + "\r\n\r\n" + $("#subOutputTextarea").html());
             }
