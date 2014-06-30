@@ -8,7 +8,7 @@ class SubscriberController < ApplicationController
     r = make_response
     render :js => r["payload"] #, :status => 418
 
-   end
+  end
 
   def make_response
 
@@ -26,19 +26,32 @@ class SubscriberController < ApplicationController
 
     if json
       if @channels.length > 1
-        {"payload" =>  [ [    d    ] ,     tt, ch    ].to_json, "json" => json}
+        {"payload" => [[d], tt, ch].to_json }
       else
-        {"payload" =>  [ [    d    ] ,     tt    ].to_json, "json" => json}
+        {"payload" => [[d], tt].to_json }
       end
 
 
     else
 
-      {"payload" => "[ [" + d + "] , " + tt + "]" ,       "json" => json.to_s + "]" }
+      if messages["channels"].present?
+        channels = messages["channels"]
+      end
+
+      if channels.present?
+
+        {"payload" => "[ " + d + ", " + tt.to_json + ", " + channels.to_json + "]"}
+
+      else
+
+        {"payload" => "[ " + d + ", " + tt.to_json + "]"}
+
+      end
 
     end
 
   end
+
 end
 
 

@@ -37,7 +37,7 @@ GEM
     daemon_controller (1.2.0)
     erubis (2.7.0)
     eventmachine (1.0.3)
-    execjs (2.1.0)
+    execjs (2.2.0)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (1.5.3)
@@ -60,10 +60,10 @@ GEM
       rack
       rake (>= 0.8.1)
     polyglot (0.3.5)
-    pubnub (3.5.5)
-      eventmachine
-      json
-      net-http-persistent
+    pubnub (3.6.4)
+      eventmachine (~> 1.0)
+      json (~> 1.8)
+      net-http-persistent (~> 2.9)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)

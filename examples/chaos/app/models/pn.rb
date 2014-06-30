@@ -11,6 +11,8 @@ class PN
 
     @sub_q = []
 
+    my_logger = Logger.new(STDOUT)
+
     @pn = Pubnub.new(
         :subscribe_key => 'demo-36',
         :publish_key => 'demo-36',
@@ -20,7 +22,9 @@ class PN
         },
         :connect_callback => lambda { |msg|
           puts "CONNECTED: #{msg.inspect}"
-        }
+        },
+
+        :logger => my_logger
     )
 
     @pn.subscribe(:http_sync => false, :channel => "chaos_admin", :callback => method(:admin_sub_callback))
@@ -92,8 +96,24 @@ class PN
           #           {"type":"admin", "output":"sub", "from":{"fragment":"{\"b\":\"t\"}"}}
           #           {"b":"t"}
 
+          # With Channel Attribute
 
-          package_for_q(envelope.message["from"]["fragment"], "json_encode" => false)
+          ##{"type":"admin", "output":"sub", "from":{"fragment":"[{\"action\""}, "channel":"foo"}
+
+
+          options = Hash.new
+
+          if  envelope.message["from"]["channel"].present?
+
+            # csv string of channels
+            frag_channels = envelope.message["from"]["channel"]
+            options = {"frag_channels" => frag_channels}
+
+          end
+
+          options["json_encode"] = false
+
+          package_for_q(envelope.message["from"]["fragment"], options)
 
         end
 
@@ -151,7 +171,7 @@ class PN
 
   def package_for_q(message, options = {"json_encode" => true})
 
-    puts "package for q: message: #{message.message}"
+    puts "package for q: message: #{message.try(:message)}"
 
     if message.class == Pubnub::Envelope
       envelope = {"message" => message.message, "channel" => message.channel}
@@ -164,6 +184,10 @@ class PN
     #end
 
     response_data = {"data" => envelope, "json" => options["json_encode"]}
+
+    if options["frag_channels"]
+      response_data["channels"] = options["frag_channels"]
+    end
 
     @sub_q.push(response_data)
     @sub_q
