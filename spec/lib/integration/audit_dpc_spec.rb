@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "#audit" do
+describe "#audit-dpc" do
   before(:each) do
 
     EM.stop if EM.reactor_running?
@@ -40,7 +40,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-ssl-block-valid-200-sync", :record => :none) do
                 @pn.audit(:ssl => true, :http_sync => true, :channel => "demo", :auth_key => "authkey", &@callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,"message":"Success","payload":{"auths":{},"subscribe_key":"sub-c-53c3d30a-4135-11e3-9970-02ee2ddab7fe","channel":"demo","level":"user"},"service":"Access Manager"}'
@@ -83,7 +83,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-ssl-block-valid-non-200-async", :record => :none) do
                 @pn.audit(:ssl => true, :http_sync => false, :channel => "demo", :auth_key => "authkey", &@callback)
-                
+
                 eventually do
                   @after_error_callback.should eq true
                   @response_output.seek 0
@@ -102,7 +102,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-ssl-block-invalid-200-sync", :record => :none) do
                 @pn.audit(:ssl => true, :http_sync => true, :channel => "demo", :auth_key => "authkey", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,'
@@ -132,7 +132,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-ssl-block-invalid-non-200-sync", :record => :none) do
                 @pn.audit(:ssl => true, :http_sync => true, :channel => "demo", :auth_key => "authkey", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,'
@@ -166,7 +166,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-ssl-parameter-valid-200-sync", :record => :none) do
                 @pn.audit(:ssl => true, :http_sync => true, :channel => "demo", :auth_key => "authkey", :callback => @callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,"message":"Success","payload":{"auths":{},"subscribe_key":"sub-c-53c3d30a-4135-11e3-9970-02ee2ddab7fe","channel":"demo","level":"user"},"service":"Access Manager"}'
@@ -196,7 +196,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-ssl-parameter-valid-non-200-sync", :record => :none) do
                 @pn.audit(:ssl => true, :http_sync => true, :channel => "demo", :auth_key => "authkey", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,"message":"Success","payload":{"auths":{},"subscribe_key":"sub-c-53c3d30a-4135-11e3-9970-02ee2ddab7fe","channel":"demo","level":"user"},"service":"Access Manager"}'
@@ -228,7 +228,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-ssl-parameter-invalid-200-sync", :record => :none) do
                 @pn.audit(:ssl => true, :http_sync => true, :channel => "demo", :auth_key => "authkey", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,'
@@ -258,7 +258,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-ssl-parameter-invalid-non-200-sync", :record => :none) do
                 @pn.audit(:ssl => true, :http_sync => true, :channel => "demo", :auth_key => "authkey", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,'
@@ -295,7 +295,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-nonssl-block-valid-200-sync", :record => :none) do
                 @pn.audit(:ssl => false, :http_sync => true, :channel => "demo", :auth_key => "authkey", &@callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,"message":"Success","payload":{"auths":{},"subscribe_key":"sub-c-53c3d30a-4135-11e3-9970-02ee2ddab7fe","channel":"demo","level":"user"},"service":"Access Manager"}'
@@ -387,7 +387,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-nonssl-block-invalid-non-200-sync", :record => :none) do
                 @pn.audit(:ssl => false, :http_sync => true, :channel => "demo", :auth_key => "authkey", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,'
@@ -400,7 +400,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-nonssl-block-invalid-non-200-async", :record => :none) do
                 @pn.audit(:ssl => false, :http_sync => false, :channel => "demo", :auth_key => "authkey", &@callback)
-                
+
                 eventually do
                   @after_error_callback.should eq true
                   @response_output.seek 0
@@ -421,7 +421,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-nonssl-parameter-valid-200-sync", :record => :none) do
                 @pn.audit(:ssl => false, :http_sync => true, :channel => "demo", :auth_key => "authkey", :callback => @callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,"message":"Success","payload":{"auths":{},"subscribe_key":"sub-c-53c3d30a-4135-11e3-9970-02ee2ddab7fe","channel":"demo","level":"user"},"service":"Access Manager"}'
@@ -434,7 +434,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-nonssl-parameter-valid-200-async", :record => :none) do
                 @pn.audit(:ssl => false, :http_sync => false, :channel => "demo", :auth_key => "authkey", :callback => @callback)
-                
+
                 eventually do
                   @after_callback.should eq true
                   @response_output.seek 0
@@ -451,7 +451,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-nonssl-parameter-valid-non-200-sync", :record => :none) do
                 @pn.audit(:ssl => false, :http_sync => true, :channel => "demo", :auth_key => "authkey", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,"message":"Success","payload":{"auths":{},"subscribe_key":"sub-c-53c3d30a-4135-11e3-9970-02ee2ddab7fe","channel":"demo","level":"user"},"service":"Access Manager"}'
@@ -464,7 +464,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-nonssl-parameter-valid-non-200-async", :record => :none) do
                 @pn.audit(:ssl => false, :http_sync => false, :channel => "demo", :auth_key => "authkey", :callback => @callback)
-                
+
                 eventually do
                   @after_error_callback.should eq true
                   @response_output.seek 0
@@ -483,7 +483,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-nonssl-parameter-invalid-200-sync", :record => :none) do
                 @pn.audit(:ssl => false, :http_sync => true, :channel => "demo", :auth_key => "authkey", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,'
@@ -513,7 +513,7 @@ describe "#audit" do
             it 'works fine' do
               VCR.use_cassette("audit-nonssl-parameter-invalid-non-200-sync", :record => :none) do
                 @pn.audit(:ssl => false, :http_sync => true, :channel => "demo", :auth_key => "authkey", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"status":200,'

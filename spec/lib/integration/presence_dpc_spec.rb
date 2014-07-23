@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "#presence" do
+describe "#presence-dpc" do
   before(:each) do
 
     EM.stop if EM.reactor_running?
@@ -38,7 +38,7 @@ describe "#presence" do
               VCR.use_cassette("presence-ssl-block-valid-200-sync", :record => :none) do
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", &@callback)
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"][[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"]'
@@ -69,7 +69,7 @@ describe "#presence" do
               VCR.use_cassette("presence-ssl-block-valid-non-200-sync", :record => :none) do
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", &@callback)
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"]'
@@ -102,7 +102,7 @@ describe "#presence" do
               VCR.use_cassette("presence-ssl-block-invalid-200-sync", :record => :none) do
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", &@callback)
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430067, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb",'
@@ -133,7 +133,7 @@ describe "#presence" do
               VCR.use_cassette("presence-ssl-block-invalid-non-200-sync", :record => :none) do
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", &@callback)
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430067, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb",'
@@ -168,7 +168,7 @@ describe "#presence" do
               VCR.use_cassette("presence-ssl-parameter-valid-200-sync", :record => :none) do
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"][[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"]'
@@ -199,7 +199,7 @@ describe "#presence" do
               VCR.use_cassette("presence-ssl-parameter-valid-non-200-sync", :record => :none) do
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"]'
@@ -232,7 +232,7 @@ describe "#presence" do
               VCR.use_cassette("presence-ssl-parameter-invalid-200-sync", :record => :none) do
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430067, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb",'
@@ -263,7 +263,7 @@ describe "#presence" do
               VCR.use_cassette("presence-ssl-parameter-invalid-non-200-sync", :record => :none) do
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
                 @pn.presence(:ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430067, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb",'
@@ -301,7 +301,7 @@ describe "#presence" do
               VCR.use_cassette("presence-nonssl-block-valid-200-sync", :record => :none) do
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", &@callback)
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"][[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"]'
@@ -332,7 +332,7 @@ describe "#presence" do
               VCR.use_cassette("presence-nonssl-block-valid-non-200-sync", :record => :none) do
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", &@callback)
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"]'
@@ -365,7 +365,7 @@ describe "#presence" do
               VCR.use_cassette("presence-nonssl-block-invalid-200-sync", :record => :none) do
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", &@callback)
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430067, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb",'
@@ -396,7 +396,7 @@ describe "#presence" do
               VCR.use_cassette("presence-nonssl-block-invalid-non-200-sync", :record => :none) do
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", &@callback)
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430067, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb",'
@@ -431,7 +431,7 @@ describe "#presence" do
               VCR.use_cassette("presence-nonssl-parameter-valid-200-sync", :record => :none) do
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"][[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"]'
@@ -462,7 +462,7 @@ describe "#presence" do
               VCR.use_cassette("presence-nonssl-parameter-valid-non-200-sync", :record => :none) do
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 1},{"action": "join", "timestamp": 1390430008, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb", "occupancy": 2}],"13904300089348992"]'
@@ -526,7 +526,7 @@ describe "#presence" do
               VCR.use_cassette("presence-nonssl-parameter-invalid-non-200-sync", :record => :none) do
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
                 @pn.presence(:ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[[{"action": "leave", "timestamp": 1390430067, "uuid": "3bad4360-2b9f-470f-aaf7-dac04454b1fb",'

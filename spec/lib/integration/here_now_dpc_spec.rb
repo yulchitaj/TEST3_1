@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "#here_now" do
+describe "#here_now-dpc" do
   before(:each) do
 
     EM.stop if EM.reactor_running?
@@ -37,7 +37,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-ssl-block-valid-200-sync", :record => :none) do
                 @pn.here_now(:ssl => true, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"uuids":["rubytests"],"occupancy":1}'
@@ -67,7 +67,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-ssl-block-valid-non-200-sync", :record => :none) do
                 @pn.here_now(:ssl => true, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"uuids":["rubytests"],"occupancy":1}'
@@ -193,7 +193,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-ssl-parameter-valid-non-200-sync", :record => :none) do
                 @pn.here_now(:ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"uuids":["rubytests"],"occupancy":1}'
@@ -206,7 +206,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-ssl-parameter-valid-non-200-async", :record => :none) do
                 @pn.here_now(:ssl => true, :http_sync => false, :channel => "demo", :callback => @callback)
-                
+
                 eventually do
                   @after_error_callback.should eq true
                   @response_output.seek 0
@@ -225,7 +225,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-ssl-parameter-invalid-200-sync", :record => :none) do
                 @pn.here_now(:ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"uuids":["rubytests"],"occupancy":1'
@@ -255,7 +255,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-ssl-parameter-invalid-non-200-sync", :record => :none) do
                 @pn.here_now(:ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"uuids":["rubytests"],"occupancy":1'
@@ -292,7 +292,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-nonssl-block-valid-200-sync", :record => :none) do
                 @pn.here_now(:ssl => false, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"uuids":["rubytests"],"occupancy":1}'
@@ -354,7 +354,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-nonssl-block-invalid-200-sync", :record => :none) do
                 @pn.here_now(:ssl => false, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 eventually do
                   @after_error_callback.should eq true
                   @response_output.seek 0
@@ -369,7 +369,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-nonssl-block-invalid-200-async", :record => :none) do
                 @pn.here_now(:ssl => false, :http_sync => false, :channel => "demo", &@callback)
-                
+
                 eventually do
                   @after_error_callback.should eq true
                   @response_output.seek 0
@@ -386,7 +386,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-nonssl-block-invalid-non-200-sync", :record => :none) do
                 @pn.here_now(:ssl => false, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"uuids":["rubytests"],"occupancy":1'
@@ -420,7 +420,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-nonssl-parameter-valid-200-sync", :record => :none) do
                 @pn.here_now(:ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"uuids":["rubytests"],"occupancy":1}'
@@ -450,7 +450,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-nonssl-parameter-valid-non-200-sync", :record => :none) do
                 @pn.here_now(:ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"uuids":["rubytests"],"occupancy":1}'
@@ -482,7 +482,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-nonssl-parameter-invalid-200-sync", :record => :none) do
                 @pn.here_now(:ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"uuids":["rubytests"],"occupancy":1'
@@ -512,7 +512,7 @@ describe "#here_now" do
             it 'works fine' do
               VCR.use_cassette("here_now-nonssl-parameter-invalid-non-200-sync", :record => :none) do
                 @pn.here_now(:ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"uuids":["rubytests"],"occupancy":1'

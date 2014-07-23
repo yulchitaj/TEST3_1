@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "#leave" do
+describe "#leave-dpc" do
   before(:each) do
 
     EM.stop if EM.reactor_running?
@@ -36,7 +36,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-ssl-block-valid-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => true, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leave"}'
@@ -66,7 +66,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-ssl-block-valid-non-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => true, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leave"}'
@@ -98,7 +98,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-ssl-block-invalid-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => true, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leav'
@@ -128,7 +128,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-ssl-block-invalid-non-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => true, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leav'
@@ -162,7 +162,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-ssl-parameter-valid-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leave"}'
@@ -192,7 +192,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-ssl-parameter-valid-non-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leave"}'
@@ -224,7 +224,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-ssl-parameter-invalid-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leav'
@@ -254,7 +254,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-ssl-parameter-invalid-non-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => true, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leav'
@@ -291,7 +291,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-nonssl-block-valid-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => false, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leave"}'
@@ -321,7 +321,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-nonssl-block-valid-non-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => false, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leave"}'
@@ -353,7 +353,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-nonssl-block-invalid-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => false, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leav'
@@ -383,7 +383,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-nonssl-block-invalid-non-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => false, :http_sync => true, :channel => "demo", &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leav'
@@ -417,7 +417,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-nonssl-parameter-valid-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leave"}'
@@ -447,7 +447,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-nonssl-parameter-valid-non-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leave"}'
@@ -479,7 +479,7 @@ describe "#leave" do
             it 'works fine' do
               VCR.use_cassette("leave-nonssl-parameter-invalid-200-sync", :record => :none) do
                 @pn.leave(:force => true, :ssl => false, :http_sync => true, :channel => "demo", :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '{"action": "leav'

@@ -86,4 +86,45 @@ http_interactions:
       string: '[["STRING"],"13912259675885906","test_channel_one"]'
     http_version: 
   recorded_at: Sat, 01 Feb 2014 03:39:27 GMT
-recorded_with: VCR 2.8.0
+- request:
+    method: get
+    uri: http://pubsub.pubnub.com/subscribe/demo/test_channel_one,test_channel_two/0/0?pnsdk=PubNub-Ruby/3.6.5&uuid=9d711012-39e2-4864-937d-e0a0aa9a3476
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - 30
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 22 Jul 2014 17:53:39 GMT
+      Content-Type:
+      - text/javascript; charset="UTF-8"
+      Content-Length:
+      - '24'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET
+    body:
+      encoding: UTF-8
+      string: '[[],"14060516196745476"]'
+    http_version: 
+  recorded_at: Tue, 22 Jul 2014 17:53:39 GMT
+recorded_with: VCR 2.9.2

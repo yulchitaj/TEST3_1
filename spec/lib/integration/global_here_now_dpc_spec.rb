@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "#here_now" do
+describe "#here_now-dpc" do
   before(:each) do
 
     EM.stop if EM.reactor_running?

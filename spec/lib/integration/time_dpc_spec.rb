@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "#time" do
+describe "#time-dpc" do
   before(:each) do
 
     EM.stop if EM.reactor_running?
@@ -37,7 +37,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-ssl-block-valid-200-sync", :record => :none) do
                 @pn.time(:ssl => true, :http_sync => true, &@callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301930718907]'
@@ -67,7 +67,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-ssl-block-valid-non-200-sync", :record => :none) do
                 @pn.time(:ssl => true, :http_sync => true, &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301930718907]'
@@ -99,7 +99,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-ssl-block-invalid-200-sync", :record => :none) do
                 @pn.time(:ssl => true, :http_sync => true, &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301869920523'
@@ -129,7 +129,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-ssl-block-invalid-non-200-sync", :record => :none) do
                 @pn.time(:ssl => true, :http_sync => true, &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301869920523'
@@ -163,7 +163,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-ssl-parameter-valid-200-sync", :record => :none) do
                 @pn.time(:ssl => true, :http_sync => true, :callback => @callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301930718907]'
@@ -193,7 +193,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-ssl-parameter-valid-non-200-sync", :record => :none) do
                 @pn.time(:ssl => true, :http_sync => true, :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301930718907]'
@@ -225,7 +225,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-ssl-parameter-invalid-200-sync", :record => :none) do
                 @pn.time(:ssl => true, :http_sync => true, :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301869920523'
@@ -255,7 +255,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-ssl-parameter-invalid-non-200-sync", :record => :none) do
                 @pn.time(:ssl => true, :http_sync => true, :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301869920523'
@@ -292,7 +292,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-nonssl-block-valid-200-sync", :record => :none) do
                 @pn.time(:ssl => false, :http_sync => true, &@callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301930718907]'
@@ -322,7 +322,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-nonssl-block-valid-non-200-sync", :record => :none) do
                 @pn.time(:ssl => false, :http_sync => true, &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301930718907]'
@@ -354,7 +354,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-nonssl-block-invalid-200-sync", :record => :none) do
                 @pn.time(:ssl => false, :http_sync => true, &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301869920523'
@@ -384,7 +384,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-nonssl-block-invalid-non-200-sync", :record => :none) do
                 @pn.time(:ssl => false, :http_sync => true, &@callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301869920523'
@@ -418,7 +418,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-nonssl-parameter-valid-200-sync", :record => :none) do
                 @pn.time(:ssl => false, :http_sync => true, :callback => @callback)
-                
+
                 @after_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301930718907]'
@@ -448,7 +448,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-nonssl-parameter-valid-non-200-sync", :record => :none) do
                 @pn.time(:ssl => false, :http_sync => true, :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301930718907]'
@@ -480,7 +480,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-nonssl-parameter-invalid-200-sync", :record => :none) do
                 @pn.time(:ssl => false, :http_sync => true, :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301869920523'
@@ -510,7 +510,7 @@ describe "#time" do
             it 'works fine' do
               VCR.use_cassette("time-nonssl-parameter-invalid-non-200-sync", :record => :none) do
                 @pn.time(:ssl => false, :http_sync => true, :callback => @callback)
-                
+
                 @after_error_callback.should eq true
                 @response_output.seek 0
                 @response_output.read.should eq '[13904301869920523'

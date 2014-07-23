@@ -31,8 +31,7 @@ module Pubnub
     def fire(app)
       $logger.debug('Pubnub'){'Pubnub::Event#fire'}
       @fired = true
-      $logger.debug('Pubnub'){'Event#fire'}
-      setup_connection(app) unless connection_exist?(app)
+      $logger.debug('Pubnub'){'Starting event'}
       envelopes = start_event(app)
     end
 
@@ -45,6 +44,7 @@ module Pubnub
     end
 
     def start_event(app, count = 0)
+      setup_connection(app) unless connection_exist?(app)
       begin
         if count <= app.env[:max_retries]
           $logger.debug('Pubnub'){'Event#start_event | sending request'}
@@ -60,7 +60,8 @@ module Pubnub
           start_event(app, count + 1)
         end
       rescue => e
-        $logger.error('Pubnub'){e.inspect}
+        $logger.error('Pubnub'){e.message}
+        $logger.error('Pubnub'){e.backtrace}
         if count <= app.env[:max_retries]
           start_event(app, count + 1)
         else
@@ -243,6 +244,7 @@ module Pubnub
     private
 
     def setup_connection(app)
+      $logger.debug('Pubnub'){'SingleEvent#setup_connection'}
       app.single_event_connections_pool[@origin] = new_connection(app)
     end
 
@@ -332,7 +334,8 @@ module Pubnub
 
         end
       rescue => error
-        $logger.error('Pubnub'){error}
+        $logger.error('Pubnub'){error.message}
+        $logger.error('Pubnub'){error.backtrace}
       end
     end
 
@@ -413,6 +416,7 @@ module Pubnub
     end
 
     def setup_connection(app)
+      $logger.debug('Pubnub'){'SubscribeEvent#setup_connection'}
       app.subscribe_event_connections_pool[@origin] = new_connection(app)
     end
 

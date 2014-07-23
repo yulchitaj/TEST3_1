@@ -156,7 +156,7 @@ module Pubnub
         @env[:respirator] = EM.add_periodic_timer((@env[:heartbeat].to_i/2) - 1) do
           @env[:subscriptions].each do |origin, subscribe|
             $logger.debug('Pubnub'){'Pubnub::Client#start_respirator | BUM'}
-            EM.defer { heartbeat(:channel => subscribe.get_channels){ |e| $logger.debug('Pubnub::Client#start_respirator | bum') } }
+            heartbeat(:channel => subscribe.get_channels){ |e| $logger.debug('Pubnub::Client#start_respirator | bum') }
           end
         end unless @env[:respirator]
 

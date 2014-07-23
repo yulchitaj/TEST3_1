@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe '#publish' do
+describe '#publish-dpc' do
   before(:each) do
     @envelopes = Array.new
     @error_envelopes = Array.new
