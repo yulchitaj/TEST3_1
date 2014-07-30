@@ -104,6 +104,19 @@ function updateSubscribeUI(){
 
 //  Operations
 
+function subTo(ch){
+
+    pubnub.publish({
+        "channel" : "chaos_admin",
+        "message" : {"type":"admin", "output":"sub", "to":{"ch":ch}},
+        "callback" : function(m, e, c){
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
+        },
+        "error" : function(m, e, c){
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigError] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
+        }
+    });
+}
 
 function getConfig(){
 
@@ -136,6 +149,19 @@ function disableCORS(){
     pubnub.publish({
         "channel" : "chaos_admin",
         "message" : {"type":"admin", "run_mode":"set", "mode":"CORS_HEADERS", "value":false},
+        "callback" : function(m, e, c){
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
+        },
+        "error" : function(m, e, c){
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigError] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
+        }
+    });
+}
+
+function setStatusTo(status){
+    pubnub.publish({
+        "channel" : "chaos_admin",
+        "message" : {"type":"admin", "run_mode":"set", "mode":"HTTP_STATUS", "value":status},
         "callback" : function(m, e, c){
             $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
         },

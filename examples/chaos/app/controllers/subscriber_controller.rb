@@ -6,7 +6,8 @@ class SubscriberController < ApplicationController
     end
 
     r = make_response
-    render :js => r["payload"] #, :status => 418
+
+    render :js => r["payload"], :status => @status
 
   end
 
