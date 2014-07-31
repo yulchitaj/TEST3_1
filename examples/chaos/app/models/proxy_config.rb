@@ -4,6 +4,8 @@ require 'pubnub'
 class ProxyConfig
   include Singleton
 
+  attr_accessor :cors_headers, :http_status
+
   def load_run_modes
 
     @CORS_HEADERS = {

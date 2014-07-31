@@ -1,6 +1,8 @@
 class AdminCallback
 
   @@pn = PN.instance.pn
+  @@config = ProxyConfig.instance
+
 
   def self.sub(envelope)
     puts("***** DATA! : #{envelope}")
@@ -11,7 +13,7 @@ class AdminCallback
 
       if envelope.message["run_mode"]
 
-        handle_run_mode(envelope)
+        handle_config(envelope)
 
 
       elsif envelope.message["output"] == "sub"
@@ -98,41 +100,44 @@ class AdminCallback
 
   end
 
-  def self.handle_run_mode(envelope)
+
+  def self.handle_config(envelope)
 
     if envelope.message["run_mode"]["get"].present?
-
-      # {"type":"admin", "run_mode":{"get":"true"}}
-
-      @@pn.publish(:http_sync => false, :message => ProxyConfig.instance.run_modes, :channel => "chaos_admin") do |x|
-        puts x
-      end
-
+      get_config
     elsif envelope.message["run_mode"]["set"].present?
+      set_config(envelope)
+    end
 
-      if envelope.message["run_mode"]["set"]
+  end
 
-        if envelope.message["mode"]
+  def self.set_config(envelope)
+    if envelope.message["run_mode"]["set"]
 
-          # {"type":"admin", "run_mode":"set", "mode":"CORS_HEADERS", "value":false}
+      if envelope.message["mode"]
 
-          toggle_run_mode(envelope.message["mode"], envelope.message["value"])
+        # {"type":"admin", "run_mode":"set", "mode":"CORS_HEADERS", "value":false}
+
+        mode = envelope.message["mode"]
+        if mode.present? && instance_variable_defined?("@#{mode}")
+
+          i = instance_variable_get("@#{mode}")
+          i[:enabled] = envelope.message["value"]
+
+          get_config
 
         end
+
       end
     end
   end
 
-  def self.toggle_run_mode(mode, value)
-    if mode.present? && instance_variable_defined?("@#{mode}")
-
-      i = instance_variable_get("@#{mode}")
-      i[:enabled] = value
-
-      @@pn.publish(:http_sync => false, :message => ProxyConfig.instance.run_modes, :channel => "chaos_admin") do |x|
-        puts x
-      end
+  def self.get_config
+    # {"type":"admin", "run_mode":{"get":"true"}}
+    @@pn.publish(:http_sync => false, :message => ProxyConfig.instance.run_modes, :channel => "chaos_admin") do |x|
+      puts x
     end
   end
+
 
 end
