@@ -23,16 +23,12 @@ class ApplicationController < ActionController::Base
     @PNTIME = "%.10i" % (Time.now.to_f * 10000000)
 
 
-    @status = 200;
-
-
-
   end
 
 
   def enforce_modes
 
-    if @RUN_MODES[:CORS_HEADERS][:enabled]
+    if @RUN_MODES[:cors_headers][:enabled]
       response.headers['Access-Control-Allow-Origin'] = '*'
       response.headers['Access-Control-Allow-Methods'] = 'GET'
     end

@@ -76,7 +76,7 @@ class AdminCallback
 
   def self.package_for_q(message, options = {"json_encode" => true})
 
-    puts "package for q: message: #{message.try(:message)}"
+    # puts "package for q: message: #{message.try(:message)}"
 
     if message.class == Pubnub::Envelope
       envelope = {"message" => message.message, "channel" => message.channel}
@@ -116,18 +116,13 @@ class AdminCallback
 
       if envelope.message["mode"]
 
-        # {"type":"admin", "run_mode":"set", "mode":"CORS_HEADERS", "value":false}
+        # {"type":"admin", "run_mode":"set", "mode":"cors_headers", "value":false}
 
         mode = envelope.message["mode"]
-        if mode.present? && instance_variable_defined?("@#{mode}")
-
-          i = instance_variable_get("@#{mode}")
-          i[:enabled] = envelope.message["value"]
-
+        if mode.present? && key = @@config.instance_variable_get("@#{mode}")
+          key[:value] = envelope.message["value"]
           get_config
-
         end
-
       end
     end
   end

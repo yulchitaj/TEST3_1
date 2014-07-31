@@ -6,27 +6,31 @@ class ProxyConfig
 
   attr_accessor :cors_headers, :http_status
 
-  def load_run_modes
+  def load_default_config
 
-    @CORS_HEADERS = {
+    @cors_headers = {
         :enabled => true,
-        :options => PnConstants::CORS_HEADERS
+        :value => PnConstants::CORS_HEADERS
     }
 
-    @HTTP_STATUS = {
+    @http_status = {
         :enabled => true,
-        :code => 200
+        :value => 200
     }
 
   end
 
   def run_modes
 
-    {:CORS_HEADERS => @CORS_HEADERS,
-     :HTTP_STATUS => @HTTP_STATUS
+    {:cors_headers => @cors_headers,
+     :http_status => @http_status
     }
 
   end
 
+
+  def status
+    return http_status[:value]
+  end
 
 end

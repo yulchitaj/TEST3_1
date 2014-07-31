@@ -7,7 +7,7 @@ class SubscriberController < ApplicationController
 
     r = make_response
 
-    render :js => r["payload"], :status => @status
+    render :js => r["payload"], :status => ProxyConfig.instance.status #ProxyConfig.instance.status
 
   end
 

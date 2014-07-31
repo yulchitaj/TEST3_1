@@ -18,7 +18,7 @@
 
 <div id="subChannelsLabel"></div>
 <div id="subInput">
-    <input size=105 id="subChannels" onchange='subscribeFromInput()'></textarea>
+    <input value="" size=105 id="subChannels" onchange='subscribeFromInput()'></textarea>
 </div>
 
 <div id="outputs">
@@ -35,8 +35,16 @@
 
 <div class="testDiv">Single Channel Tests
 
+    <script>
+
+    </script>
+
     <div class="test">Send back 403s</div>
     <button onclick="setStatusTo(403)">403</button>
+
+
+    <div class="test">Send back 200s</div>
+    <button onclick="setStatusTo(200)">200</button>
 
     <div class="test">Sub Proxy to bot</div>
     <button onclick="subTo('bot')">Sub to Bot</button>

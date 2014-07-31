@@ -135,7 +135,7 @@ function getConfig(){
 function enableCORS(){
     pubnub.publish({
         "channel" : "chaos_admin",
-        "message" : {"type":"admin", "run_mode":"set", "mode":"CORS_HEADERS", "value":true},
+        "message" : {"type":"admin", "run_mode":"set", "mode":"cors_headers", "value":true},
         "callback" : function(m, e, c){
             $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
         },
@@ -148,7 +148,7 @@ function enableCORS(){
 function disableCORS(){
     pubnub.publish({
         "channel" : "chaos_admin",
-        "message" : {"type":"admin", "run_mode":"set", "mode":"CORS_HEADERS", "value":false},
+        "message" : {"type":"admin", "run_mode":"set", "mode":"cors_headers", "value":false},
         "callback" : function(m, e, c){
             $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
         },
@@ -161,7 +161,7 @@ function disableCORS(){
 function setStatusTo(status){
     pubnub.publish({
         "channel" : "chaos_admin",
-        "message" : {"type":"admin", "run_mode":"set", "mode":"HTTP_STATUS", "value":status},
+        "message" : {"type":"admin", "run_mode":"set", "mode":"http_status", "value":status},
         "callback" : function(m, e, c){
             $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
         },

@@ -6,7 +6,7 @@ class PN
 
   def initialize
 
-    ProxyConfig.instance.load_run_modes
+    ProxyConfig.instance.load_default_config
 
     @sub_q = []
 
