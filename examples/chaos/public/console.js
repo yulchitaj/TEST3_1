@@ -158,10 +158,10 @@ function disableCORS(){
     });
 }
 
-function setStatusTo(status){
+function setStatusTo(status, service){
     pubnub.publish({
         "channel" : "chaos_admin",
-        "message" : {"type":"admin", "run_mode":"set", "mode":"http_status", "value":status},
+        "message" : {"type":"admin", "run_mode":"set", "mode":"http_status", "service": service, "value":status},
         "callback" : function(m, e, c){
             $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
         },

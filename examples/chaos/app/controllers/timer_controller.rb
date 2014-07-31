@@ -1,7 +1,7 @@
 class TimerController < ApplicationController
 
   def time
-    render :js => make_time, :status => ProxyConfig.instance.status
+    render :js => make_time, :status => ProxyConfig.instance.status[:time][:value]
   end
 
   def make_time

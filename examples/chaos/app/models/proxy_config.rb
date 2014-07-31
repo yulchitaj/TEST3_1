@@ -14,8 +14,14 @@ class ProxyConfig
     }
 
     @http_status = {
-        :enabled => true,
-        :value => 200
+
+        :subscribe => {
+            :enabled => true,
+            :value => 200},
+
+        :time => {
+            :enabled => true,
+            :value => 200},
     }
 
   end
@@ -30,7 +36,7 @@ class ProxyConfig
 
 
   def status
-    return http_status[:value]
+    return http_status
   end
 
 end

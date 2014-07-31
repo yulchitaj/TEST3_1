@@ -7,7 +7,7 @@ class SubscriberController < ApplicationController
 
     r = make_response
 
-    render :js => r["payload"], :status => ProxyConfig.instance.status #ProxyConfig.instance.status
+    render :js => r["payload"], :status => ProxyConfig.instance.status[:subscribe][:value]
 
   end
 
@@ -44,8 +44,16 @@ class SubscriberController < ApplicationController
         {"payload" => "[ " + d + ", " + tt.to_json + ", " + channels.to_json + "]"}
 
       else
+        if ProxyConfig.instance.status != 200
+
+          {"payload" =>
+               '{"status":' + ProxyConfig.instance.status + ',"service":"Access Manager","error":true,"message":"Forbidden","payload":{"channels":["bot-pnpres"]}}'
+          }
+
+        else
 
         {"payload" => "[ " + d + ", " + tt.to_json + "]"}
+        end
 
       end
 

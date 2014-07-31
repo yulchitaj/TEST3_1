@@ -119,8 +119,8 @@ class AdminCallback
         # {"type":"admin", "run_mode":"set", "mode":"cors_headers", "value":false}
 
         mode = envelope.message["mode"]
-        if mode.present? && key = @@config.instance_variable_get("@#{mode}")
-          key[:value] = envelope.message["value"]
+        if mode.present? && (key = @@config.instance_variable_get("@#{mode}")) && (service = envelope.message["service"])
+          key[service.to_sym][:value] = envelope.message["value"]
           get_config
         end
       end

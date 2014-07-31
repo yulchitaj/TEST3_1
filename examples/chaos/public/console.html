@@ -33,21 +33,34 @@
 
 </div>
 
-<div class="testDiv">Single Channel Tests
-
-    <script>
-
-    </script>
+<div class="subscriber"><h2>Subscribe</h2>
 
     <div class="test">Send back 403s</div>
-    <button onclick="setStatusTo(403)">403</button>
-
+    <button onclick="setStatusTo(403, 'subscribe')">403</button>
 
     <div class="test">Send back 200s</div>
-    <button onclick="setStatusTo(200)">200</button>
+    <button onclick="setStatusTo(200, 'subscribe')">200</button>
+
+    </div>
+
+<div class="timer"><h2>Time</h2>
+
+
+    <div class="test">Send back 403s</div>
+    <button onclick="setStatusTo(403, 'time')">403</button>
+
+    <div class="test">Send back 200s</div>
+    <button onclick="setStatusTo(200, 'time')">200</button>
+
+
+
+    </div>
+
+<div class="general"><h2>General</h2>
 
     <div class="test">Sub Proxy to bot</div>
     <button onclick="subTo('bot')">Sub to Bot</button>
+
 
     <div class="test">Get Config</div>
     <button onclick="getConfig()">Get Config</button>
