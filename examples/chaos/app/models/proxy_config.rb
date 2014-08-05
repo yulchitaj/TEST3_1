@@ -29,7 +29,7 @@ class ProxyConfig
   def run_modes
 
     {:cors_headers => @cors_headers,
-     :http_status => @http_status
+     :http_sub_status => @http_status
     }
 
   end

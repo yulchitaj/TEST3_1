@@ -1,5 +1,7 @@
 class SubscriberController < ApplicationController
 
+  include ApplicationHelper
+
   def subscribe
     while !PN.instance.fetch_ready?
       sleep(0.25)
@@ -7,7 +9,7 @@ class SubscriberController < ApplicationController
 
     r = make_response
 
-    render :js => r["payload"], :status => ProxyConfig.instance.status[:subscribe][:value]
+    render :js => r["payload"], :status => http_sub_status
 
   end
 
@@ -27,9 +29,33 @@ class SubscriberController < ApplicationController
 
     if json
       if @channels.length > 1
-        {"payload" => [[d], tt, ch].to_json }
-      else
-        {"payload" => [[d], tt].to_json }
+
+        if http_sub_status != 200
+
+          {"payload" =>
+               '{"status":' + http_sub_status.to_s + ',"service":"Access Manager","error":true,"message":"Forbidden","payload":{"channels":["bot-pnpres"]}}'
+          }
+
+        else
+
+          {"payload" => [[d], tt, ch].to_json }
+
+        end
+
+          else
+
+        if http_sub_status != 200
+
+          {"payload" =>
+               '{"status":' + http_sub_status.to_s + ',"service":"Access Manager","error":true,"message":"Forbidden","payload":{"channels":["bot-pnpres"]}}'
+          }
+
+        else
+
+          {"payload" => [[d], tt].to_json }
+
+        end
+
       end
 
 
@@ -44,10 +70,10 @@ class SubscriberController < ApplicationController
         {"payload" => "[ " + d + ", " + tt.to_json + ", " + channels.to_json + "]"}
 
       else
-        if ProxyConfig.instance.status != 200
+        if http_sub_status != 200
 
           {"payload" =>
-               '{"status":' + ProxyConfig.instance.status + ',"service":"Access Manager","error":true,"message":"Forbidden","payload":{"channels":["bot-pnpres"]}}'
+               '{"status":' + http_sub_status.to_s + ',"service":"Access Manager","error":true,"message":"Forbidden","payload":{"channels":["bot-pnpres"]}}'
           }
 
         else
