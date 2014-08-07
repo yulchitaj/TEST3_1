@@ -8,4 +8,12 @@ module ApplicationHelper
     ProxyConfig.instance.status[:time][:value]
   end
 
+  def cors_headers
+    ProxyConfig.instance.cors[:headers][:enabled]
+  end
+
+  def current_config
+    ProxyConfig.instance.current_config
+  end
+
 end

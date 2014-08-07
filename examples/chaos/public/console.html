@@ -36,10 +36,10 @@
 <div class="subscriber"><h2>Subscribe</h2>
 
     <div class="test">Send back 403s</div>
-    <button onclick="setStatusTo(403, 'subscribe')">403</button>
+    <button onclick="setStatusTo(403, 'http_status', 'subscribe', 'value')">403</button>
 
     <div class="test">Send back 200s</div>
-    <button onclick="setStatusTo(200, 'subscribe')">200</button>
+    <button onclick="setStatusTo(200, 'http_status', 'subscribe', 'value')">200</button>
 
     </div>
 
@@ -47,11 +47,14 @@
 
 
     <div class="test">Send back 403s</div>
-    <button onclick="setStatusTo(403, 'time')">403</button>
+    <button onclick="setStatusTo(403, 'http_status', 'time', 'value')">403</button>
 
     <div class="test">Send back 200s</div>
-    <button onclick="setStatusTo(200, 'time')">200</button>
+    <button onclick="setStatusTo(200, 'http_status', 'time', 'value')">200</button>
 
+    <div class="test">Toggle CORS</div>
+    <button onclick="setStatusTo(true, 'cors', 'headers', 'enabled')">Enable CORS</button>
+    <button onclick="setStatusTo(false, 'cors', 'headers', 'enabled')">Disable CORS</button>
 
 
     </div>
@@ -65,9 +68,7 @@
     <div class="test">Get Config</div>
     <button onclick="getConfig()">Get Config</button>
 
-    <div class="test">Toggle CORS</div>
-    <button onclick="enableCORS()">Enable CORS</button>
-    <button onclick="disableCORS()">Disable CORS</button>
+
 
     <div class="test">Status Code Tests</div>
 

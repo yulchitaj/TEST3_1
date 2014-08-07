@@ -2,15 +2,17 @@ require 'singleton'
 require 'pubnub'
 
 class ProxyConfig
-  include Singleton
 
-  attr_accessor :cors_headers, :http_status
+  include Singleton
+  attr_accessor :cors, :http_status, :current_config
 
   def load_default_config
 
-    @cors_headers = {
-        :enabled => true,
-        :value => PnConstants::CORS_HEADERS
+    @cors = {
+        :headers => {
+            :enabled => true,
+            :value => PnConstants::CORS_HEADERS
+        }
     }
 
     @http_status = {
@@ -26,17 +28,19 @@ class ProxyConfig
 
   end
 
-  def run_modes
-
-    {:cors_headers => @cors_headers,
-     :http_sub_status => @http_status
+  def current_config
+    {:cors => @cors,
+     :http_status => @http_status
     }
-
   end
 
 
   def status
     return http_status
+  end
+
+  def cors_headers
+    return cors
   end
 
 end

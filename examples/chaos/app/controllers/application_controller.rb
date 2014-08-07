@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
 
+  include ApplicationHelper
+
   before_filter :set_pn_vars, :enforce_modes
 
   # Prevent CSRF attacks by raising an exception.
@@ -9,7 +11,6 @@ class ApplicationController < ActionController::Base
   def set_pn_vars
 
     @PN = PN.instance.pn
-    @RUN_MODES = ProxyConfig.instance.run_modes
 
     @pub_key = params[:pub_key] if params[:pub_key].present?
     @sub_key = params[:sub_key]
@@ -28,7 +29,9 @@ class ApplicationController < ActionController::Base
 
   def enforce_modes
 
-    if @RUN_MODES[:cors_headers][:enabled]
+    puts "CORS: #{cors_headers}"
+
+    if cors_headers
       response.headers['Access-Control-Allow-Origin'] = '*'
       response.headers['Access-Control-Allow-Methods'] = 'GET'
     end

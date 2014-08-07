@@ -132,36 +132,11 @@ function getConfig(){
     });
 }
 
-function enableCORS(){
-    pubnub.publish({
-        "channel" : "chaos_admin",
-        "message" : {"type":"admin", "run_mode":"set", "mode":"cors_headers", "value":true},
-        "callback" : function(m, e, c){
-            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
-        },
-        "error" : function(m, e, c){
-            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigError] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
-        }
-    });
-}
 
-function disableCORS(){
+function setStatusTo(value, obj, service, key){
     pubnub.publish({
         "channel" : "chaos_admin",
-        "message" : {"type":"admin", "run_mode":"set", "mode":"cors_headers", "value":false},
-        "callback" : function(m, e, c){
-            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
-        },
-        "error" : function(m, e, c){
-            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigError] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
-        }
-    });
-}
-
-function setStatusTo(status, service){
-    pubnub.publish({
-        "channel" : "chaos_admin",
-        "message" : {"type":"admin", "run_mode":"set", "mode":"http_status", "service": service, "value":status},
+        "message" : {"type":"admin", "run_mode":"set", "obj":obj, "service": service, "key":key, "value":value},
         "callback" : function(m, e, c){
             $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
         },

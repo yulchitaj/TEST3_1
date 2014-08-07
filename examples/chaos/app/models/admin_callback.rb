@@ -114,13 +114,17 @@ class AdminCallback
   def self.set_config(envelope)
     if envelope.message["run_mode"]["set"]
 
-      if envelope.message["mode"]
+      if obj = envelope.message["obj"]
 
         # {"type":"admin", "run_mode":"set", "mode":"cors_headers", "value":false}
 
-        mode = envelope.message["mode"]
-        if mode.present? && (key = @@config.instance_variable_get("@#{mode}")) && (service = envelope.message["service"])
-          key[service.to_sym][:value] = envelope.message["value"]
+        key = envelope.message["key"]
+        value = envelope.message["value"]
+        proxy_config_object = @@config.instance_variable_get("@#{obj}")
+        service = envelope.message["service"]
+
+        if proxy_config_object && service && key
+          proxy_config_object[service.to_sym][key.to_sym] = value
           get_config
         end
       end
@@ -129,7 +133,7 @@ class AdminCallback
 
   def self.get_config
     # {"type":"admin", "run_mode":{"get":"true"}}
-    @@pn.publish(:http_sync => false, :message => ProxyConfig.instance.run_modes, :channel => "chaos_admin") do |x|
+    @@pn.publish(:http_sync => false, :message => ProxyConfig.instance.current_config, :channel => "chaos_admin") do |x|
       puts x
     end
   end
