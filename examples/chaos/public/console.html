@@ -41,6 +41,9 @@
     <div class="test">Send back 200s</div>
     <button onclick="setStatusTo(200, 'http_status', 'subscribe', 'value')">200</button>
 
+    <div class="test">Send back 200s</div>
+    <input onchange="setStatusTo(parseInt(this.value), 'http_status', 'subscribe', 'value')" name="subscribe_arbitrary_port"></input>
+
     </div>
 
 <div class="timer"><h2>Time</h2>
