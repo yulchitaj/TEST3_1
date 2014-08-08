@@ -28,39 +28,22 @@ class SubscriberController < ApplicationController
     json = messages["json"]
 
     if json
-      if @channels.length > 1
-
+      if @channels.length > 2
         if http_sub_status != 200
-
-          {"payload" =>
-               '{"status":' + http_sub_status.to_s + ',"service":"Access Manager","error":true,"message":"Forbidden","payload":{"channels":["bot-pnpres"]}}'
-          }
-
+          return {"payload" => ResponseSubscribe.new(:timetoken => tt, :messages => messages["data"]["message"], :channel => "bot").to_403}
         else
-
-          {"payload" => [[d], tt, ch].to_json }
-
+          return {"payload" => ResponseSubscribe.new(:timetoken => tt, :messages => messages["data"]["message"], :channel => "bot").to_good_json}
         end
 
-          else
-
+      else
         if http_sub_status != 200
-
-          {"payload" =>
-               '{"status":' + http_sub_status.to_s + ',"service":"Access Manager","error":true,"message":"Forbidden","payload":{"channels":["bot-pnpres"]}}'
-          }
-
+          {"payload" => '{"status":' + http_sub_status.to_s + ',"service":"Access Manager","error":true,"message":"Forbidden","payload":{"channels":["bot-pnpres"]}}'}
         else
-
-          {"payload" => [[d], tt].to_json }
-
+          {"payload" => [[d], tt].to_json}
         end
-
       end
 
-
     else
-
       if messages["channels"].present?
         channels = messages["channels"]
       end
@@ -78,7 +61,7 @@ class SubscriberController < ApplicationController
 
         else
 
-        {"payload" => "[ " + d + ", " + tt.to_json + "]"}
+          {"payload" => "[ " + d + ", " + tt.to_json + "]"}
         end
 
       end

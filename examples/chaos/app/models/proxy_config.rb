@@ -4,7 +4,7 @@ require 'pubnub'
 class ProxyConfig
 
   include Singleton
-  attr_accessor :cors, :http_status, :current_config
+  attr_accessor :cors, :http_status, :current_config, :valid_data
 
   def load_default_config
 
