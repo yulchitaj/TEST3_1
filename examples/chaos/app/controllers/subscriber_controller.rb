@@ -39,6 +39,11 @@ class SubscriberController < ApplicationController
 
     ## Fragmented
 
+      if messages["data"]["response"].present?
+        return { "payload" => ResponseSubscribe.new(:fragmented => true,
+                                                    :response => messages["data"]["response"]).raw }
+      end
+
       if http_sub_status != 200
         return { "payload" => ResponseSubscribe.new(:fragmented => true,
                                                     :timetoken => tt,

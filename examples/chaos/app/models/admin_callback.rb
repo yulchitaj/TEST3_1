@@ -33,19 +33,10 @@ class AdminCallback
           # Good Literals
 
           #           {"type":"admin", "output":"sub", "from":{"fragment":"[1,2,3]"}}
-          #           [1,2,3]
+          #           ... {"fragment":"[\"1\",2,3]"}, {"fragment":"{\"b\":\"t\"}"}, {"fragment":"\"pizza\""}
 
-          #           {"type":"admin", "output":"sub", "from":{"fragment":"[\"1\",2,3]"}}
-          #           ["1",2,3]
-
-          #           {"type":"admin", "output":"sub", "from":{"fragment":"\"pizza\""}}
-          #           "pizza"
-
-          #           {"type":"admin", "output":"sub", "from":{"fragment":"{\"b\":\"t\"}"}}
-          #           {"b":"t"}
-
+          # TODO: Implement Channel Options
           # With Channel Attribute
-
           ##{"type":"admin", "output":"sub", "from":{"fragment":"[{\"action\""}, "channel":"foo"}
 
 
@@ -60,8 +51,15 @@ class AdminCallback
           end
 
           options["well_formed_json"] = false
-
+          options["from"] = "fragment"
           package_for_q(envelope.message["from"]["fragment"], options)
+
+        elsif envelope.message["from"]["response"].present?
+          options = Hash.new
+
+          options["well_formed_json"] = false
+          options["from"] = "response"
+          package_for_q(envelope.message["from"]["response"], options)
 
         end
 
@@ -75,15 +73,16 @@ class AdminCallback
 
     # puts "package for q: message: #{message.try(:message)}"
 
-    if message.class == Pubnub::Envelope
+    if message.class == Pubnub::Envelope # If its a native PN message, ie, forwarded from subscribe
       envelope = {"message" => message.message, "channel" => message.channel}
-    else
+
+    elsif options["from"] == "fragment"
       envelope = {"message" => message}
+
+    elsif options["from"] == "response"
+      envelope = {"response" => message}
     end
 
-    #while @block
-    #  sleep(0.1)
-    #end
 
     response_data = {"data" => envelope, "well_formed_json" => options["well_formed_json"]}
 

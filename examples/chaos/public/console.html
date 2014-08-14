@@ -50,6 +50,7 @@
 </div>
 
 <div class="envelope"><h2>Envelope</h2>
+    TODO: Need to add Channel Options
     <div class="test">Send well-formed message fragment [1,2,3]</div>
     <button onclick="pubFragment([1,2,3])">fragment</button>
 
@@ -61,6 +62,10 @@
 
     <div class="test">Send Arbitrary Message Element Fragment. eg: ["foo"] or ["first",2,["third"],{"fourth":"fifth"}]</div>
     <input size="50" onkeypress="return onValueChange(event, 'messageFragment', this.value)" ></input>
+
+    <div class="test">Send Arbitrary Response eg: ["foo"] or ["first",2,["third"],{"fourth":"fifth"}]</div>
+    <input size="50" onkeypress="return onValueChange(event, 'arbitraryResponse', this.value)" ></input>
+
 </div>
 
 <div class="timer"><h2>Time</h2>

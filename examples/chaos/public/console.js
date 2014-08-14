@@ -125,15 +125,24 @@ function onValueChange(event, opType, fragment, obj, service, key) {
             //pubFragment(fragment);
         } else if (opType == "httpResponseCode") {
             setStatusTo(parseInt(fragment), 'http_status', 'subscribe', 'value')
+        } else if (opType == "arbitraryResponse") {
+            pubFragment(JSON.parse(fragment), "arbitraryResponse");
         }
     }
 }
 
-function pubFragment(fragment){
+function pubFragment(fragment, responseType){
+
+
+    if (responseType == "arbitraryResponse") {
+        message = {"type":"admin", "output":"sub", "from":{"response":fragment}}
+    } else {
+        message = {"type":"admin", "output":"sub", "from":{"fragment":fragment}}
+    }
 
     pubnub.publish({
         "channel" : "chaos_admin",
-        "message" : {"type":"admin", "output":"sub", "from":{"fragment":fragment}},
+        "message" : message,
         "callback" : function(m, e, c){
             $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
         },
