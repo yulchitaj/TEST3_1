@@ -22,41 +22,38 @@ class SubscriberController < ApplicationController
     d = messages["data"]["message"]
     tt = timetoken.to_s
 
+    clientChannels =  messages["channels"].present? ? messages["channels"] : @channels
+
+    ## Well-Formed
     if messages["well_formed_json"]
-
         if http_sub_status != 200
-          return { "payload" => ResponseSubscribe.new(:timetoken => tt, :messages => messages["data"]["message"], :channel => "bot").to_403 }
+          return { "payload" => ResponseSubscribe.new(:timetoken => tt,
+                                                      :messages => messages["data"]["message"],
+                                                      :channel => "bot").to_403 }
         else
-          return { "payload" => ResponseSubscribe.new(:timetoken => tt, :messages => messages["data"]["message"], :channel => "bot").to_known_json }
+          return { "payload" => ResponseSubscribe.new(:timetoken => tt,
+                                                      :messages => messages["data"]["message"],
+                                                      :channel => "bot").to_known_json }
         end
-
     else
-      if messages["channels"].present?
-        channelOverride = messages["channels"]
-      end
 
-      if channelOverride.present?
+    ## Fragmented
 
-        {"payload" => "[ " + d + ", " + tt.to_json + ", " + channelOverride.to_json + "]"}
-
+      if http_sub_status != 200
+        return { "payload" => ResponseSubscribe.new(:fragmented => true,
+                                                    :timetoken => tt,
+                                                    :messages => messages["data"]["message"],
+                                                    :channel => "bot").to_403 }
       else
-        if http_sub_status != 200
-
-          {"payload" =>
-               '{"status":' + http_sub_status.to_s + ',"service":"Access Manager","error":true,"message":"Forbidden","payload":{"channels":["bot-pnpres"]}}'
-          }
-
-        else
-
-          {"payload" => "[ " + d + ", " + tt.to_json + "]"}
-        end
-
+        return { "payload" => ResponseSubscribe.new(:fragmented => true,
+                                                    :timetoken => tt,
+                                                    :messages => messages["data"]["message"],
+                                                    :channel => "bot").to_fragmented_json }
       end
+
 
     end
-
   end
-
 end
 
 

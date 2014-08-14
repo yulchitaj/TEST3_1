@@ -121,7 +121,8 @@ function subTo(ch){
 function onValueChange(event, opType, fragment, obj, service, key) {
     if (event.keyCode == 13) {
         if (opType == "messageFragment") {
-            pubFragment(fragment);
+            pubFragment(JSON.parse(fragment));
+            //pubFragment(fragment);
         } else if (opType == "httpResponseCode") {
             setStatusTo(parseInt(fragment), 'http_status', 'subscribe', 'value')
         }

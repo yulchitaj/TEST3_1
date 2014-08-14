@@ -51,15 +51,15 @@
 
 <div class="envelope"><h2>Envelope</h2>
     <div class="test">Send well-formed message fragment [1,2,3]</div>
-    <button onclick="pubFragment('[1,2,3]')">fragment</button>
+    <button onclick="pubFragment([1,2,3])">fragment</button>
 
-    <div class="test">Send well-formed message fragment [\"hi\"]</div>
-    <button onclick='pubFragment("[\"hi\"]")'>fragment</button>
+    <div class="test">Send well-formed message fragment ["hi"]</div>
+    <button onclick='pubFragment(["hi"])'>fragment</button>
 
     <div class="test">Send well-formed message fragment [{"foo":"bar"}]</div>
-    <button onclick='pubFragment("[{\"foo\":\"bar\"}]")'>fragment</button>
+    <button onclick='pubFragment([{"foo":"bar"}])'>fragment</button>
 
-    <div class="test">Send Arbitrary Message Element Fragment. Include the array. (eg, ["foo"] or ["first",2,["third"],{"fourth":"fifth"}] )</div>
+    <div class="test">Send Arbitrary Message Element Fragment. eg: ["foo"] or ["first",2,["third"],{"fourth":"fifth"}]</div>
     <input size="50" onkeypress="return onValueChange(event, 'messageFragment', this.value)" ></input>
 </div>
 

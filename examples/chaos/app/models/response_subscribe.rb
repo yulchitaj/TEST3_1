@@ -5,6 +5,7 @@ class ResponseSubscribe
 
   def initialize(options)
     @timetoken = options[:timetoken]
+    @fragmented = options[:fragmented]
 
     @messages = package(options[:messages]) || package(options[:message])
     @channels = package(options[:channels]) || package(options[:channel])
@@ -13,7 +14,7 @@ class ResponseSubscribe
 
   def package(payload)
     if payload.class == Array
-      return [payload]
+      return @fragmented ? payload : [payload]
 
     elsif payload.class == String
       return [payload.split(",")][0]
@@ -29,7 +30,7 @@ class ResponseSubscribe
   end
 
   # TODO - known envelope, unknown / unpredictable values
-  def to_unknown_json
+  def to_fragmented_json
     if @channels.length < 2
       return "[ " + @messages.to_json + ", " + @timetoken.to_json + "]"
     else
