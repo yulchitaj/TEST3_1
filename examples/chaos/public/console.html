@@ -24,27 +24,44 @@
 <div id="outputs">
 
     <div class="outputs" id="subOutputDiv">
-        <textarea id="subOutputTextarea" rows=20 cols="75"></textarea>
+        <textarea id="subOutputTextarea" rows=10 cols="75"></textarea>
     </div>
 
     <div class="outputs" id="errorOutputDiv">
-        <textarea id="errorOutputTextarea" rows=20 cols="75"></textarea>
+        <textarea id="errorOutputTextarea" rows=10 cols="75"></textarea>
     </div>
 
 </div>
 
 <div class="subscriber"><h2>Subscribe</h2>
+    <div class="test">Sub Proxy to bot</div>
+    <button onclick="subTo('bot')">Sub to Bot</button>
 
-    <div class="test">Send back 403s</div>
+    <div class="test">Set HTTP Response code to 403s</div>
     <button onclick="setStatusTo(403, 'http_status', 'subscribe', 'value')">403</button>
 
-    <div class="test">Send back 200s</div>
+    <div class="test">Set HTTP Response code to 200s</div>
     <button onclick="setStatusTo(200, 'http_status', 'subscribe', 'value')">200</button>
 
-    <div class="test">Send back 200s</div>
-    <input onchange="setStatusTo(parseInt(this.value), 'http_status', 'subscribe', 'value')" name="subscribe_arbitrary_port"></input>
+    <div class="test">Set HTTP Response code to</div>
+    <!--<input onchange="setStatusTo(parseInt(this.value), 'http_status', 'subscribe', 'value')" name="subscribe_arbitrary_port"></input>-->
+    <input onkeypress="return onValueChange(event, 'httpResponseCode', this.value, 'http_status', 'subscribe', 'value')" name="subscribe_arbitrary_port"></input>
 
-    </div>
+</div>
+
+<div class="envelope"><h2>Envelope</h2>
+    <div class="test">Send well-formed message fragment [1,2,3]</div>
+    <button onclick="pubFragment('[1,2,3]')">fragment</button>
+
+    <div class="test">Send well-formed message fragment [\"hi\"]</div>
+    <button onclick='pubFragment("[\"hi\"]")'>fragment</button>
+
+    <div class="test">Send well-formed message fragment [{"foo":"bar"}]</div>
+    <button onclick='pubFragment("[{\"foo\":\"bar\"}]")'>fragment</button>
+
+    <div class="test">Send Arbitrary Message Element Fragment. Include the array. (eg, ["foo"] or ["first",2,["third"],{"fourth":"fifth"}] )</div>
+    <input size="50" onkeypress="return onValueChange(event, 'messageFragment', this.value)" ></input>
+</div>
 
 <div class="timer"><h2>Time</h2>
 
@@ -64,8 +81,6 @@
 
 <div class="general"><h2>General</h2>
 
-    <div class="test">Sub Proxy to bot</div>
-    <button onclick="subTo('bot')">Sub to Bot</button>
 
 
     <div class="test">Get Config</div>

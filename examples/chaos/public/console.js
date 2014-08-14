@@ -118,6 +118,30 @@ function subTo(ch){
     });
 }
 
+function onValueChange(event, opType, fragment, obj, service, key) {
+    if (event.keyCode == 13) {
+        if (opType == "messageFragment") {
+            pubFragment(fragment);
+        } else if (opType == "httpResponseCode") {
+            setStatusTo(parseInt(fragment), 'http_status', 'subscribe', 'value')
+        }
+    }
+}
+
+function pubFragment(fragment){
+
+    pubnub.publish({
+        "channel" : "chaos_admin",
+        "message" : {"type":"admin", "output":"sub", "from":{"fragment":fragment}},
+        "callback" : function(m, e, c){
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigSuccess] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
+        },
+        "error" : function(m, e, c){
+            $("#errorOutputTextarea").html(moment().format('MM-D-YY hh:mm:ss') + ":[getConfigError] " + JSON.stringify(m) + "\r\n\r\n" + $("#errorOutputTextarea").html());
+        }
+    });
+}
+
 function getConfig(){
 
     pubnub.publish({

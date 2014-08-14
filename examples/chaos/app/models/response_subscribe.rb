@@ -20,16 +20,30 @@ class ResponseSubscribe
     end
   end
 
-  def to_good_json
-
+  def to_known_json
     if @channels.length < 2
-      #return "[ " + @messages.to_json + ", " + @timetoken.to_json + "]"
       return [ @messages, @timetoken.to_s].to_json
     else
-      #return "[ " + @messages.to_json + ", " + @timetoken.to_json + ", " + @channels.join(",").to_json + "]"
       return [ @messages, @timetoken.to_s, [@channels.join(",")]].to_json
     end
+  end
 
+  # TODO - known envelope, unknown / unpredictable values
+  def to_unknown_json
+    if @channels.length < 2
+      return "[ " + @messages.to_json + ", " + @timetoken.to_json + "]"
+    else
+      return "[ " + @messages.to_json + ", " + @timetoken.to_json + ", " + @channels.join(",").to_json + "]"
+    end
+  end
+
+  # TODO - could be anything - malformed envelope, html, etc
+  def to_unknown_response
+    if @channels.length < 2
+      return "[ " + @messages.to_json + ", " + @timetoken.to_json + "]"
+    else
+      return "[ " + @messages.to_json + ", " + @timetoken.to_json + ", " + @channels.join(",").to_json + "]"
+    end
   end
 
   def to_403

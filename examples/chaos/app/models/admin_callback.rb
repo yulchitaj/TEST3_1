@@ -21,14 +21,11 @@ class AdminCallback
         #             {"type":"admin", "output":"sub", "to":{"ch":"bot"}}
 
         if envelope.message["to"].present?
-
           if envelope.message["to"]["ch"].present?
 
 
             @@pn.subscribe(:http_sync => false, :channel => envelope.message["to"]["ch"], :callback => method(:package_for_q))
 
-            #           Send a literal array
-            #           {"type":"admin", "output":"sub", "to":{"fragment":"[1,2,3]"}}
           end
 
         elsif envelope.message["from"]["fragment"].present?
@@ -62,7 +59,7 @@ class AdminCallback
 
           end
 
-          options["json_encode"] = false
+          options["well_formed_json"] = false
 
           package_for_q(envelope.message["from"]["fragment"], options)
 
@@ -74,7 +71,7 @@ class AdminCallback
   end
 
 
-  def self.package_for_q(message, options = {"json_encode" => true})
+  def self.package_for_q(message, options = {"well_formed_json" => true})
 
     # puts "package for q: message: #{message.try(:message)}"
 
@@ -88,7 +85,7 @@ class AdminCallback
     #  sleep(0.1)
     #end
 
-    response_data = {"data" => envelope, "json" => options["json_encode"]}
+    response_data = {"data" => envelope, "well_formed_json" => options["well_formed_json"]}
 
     if options["frag_channels"]
       response_data["channels"] = options["frag_channels"]

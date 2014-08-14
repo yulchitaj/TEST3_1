@@ -6,42 +6,24 @@ class SubscriberController < ApplicationController
     while !PN.instance.fetch_ready?
       sleep(0.25)
     end
-
     r = make_response
-
     render :js => r["payload"], :status => http_sub_status
-
   end
 
   def make_response
 
     messages = PN.instance.fetch_q
-
     timetoken = @PNTIME
-
-    #t = @PN.time(:http_sync => true)
-
     d = messages["data"]["message"]
-    ch = messages["data"]["channel"]
-
     tt = timetoken.to_s
-    json = messages["json"]
 
-    if json
-      if @channels.length > 2
-        if http_sub_status != 200
-          return {"payload" => ResponseSubscribe.new(:timetoken => tt, :messages => messages["data"]["message"], :channel => "bot").to_403}
-        else
-          return {"payload" => ResponseSubscribe.new(:timetoken => tt, :messages => messages["data"]["message"], :channel => "bot").to_good_json}
-        end
+    if messages["well_formed_json"]
 
-      else
         if http_sub_status != 200
-          {"payload" => '{"status":' + http_sub_status.to_s + ',"service":"Access Manager","error":true,"message":"Forbidden","payload":{"channels":["bot-pnpres"]}}'}
+          return { "payload" => ResponseSubscribe.new(:timetoken => tt, :messages => messages["data"]["message"], :channel => "bot").to_403 }
         else
-          {"payload" => [[d], tt].to_json}
+          return { "payload" => ResponseSubscribe.new(:timetoken => tt, :messages => messages["data"]["message"], :channel => "bot").to_known_json }
         end
-      end
 
     else
       if messages["channels"].present?
