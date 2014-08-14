@@ -7,6 +7,11 @@ class SubscriberController < ApplicationController
       sleep(0.25)
     end
     r = make_response
+
+    PN.instance.pn.publish(:http_sync => false, :message => "Sending to client: #{r['payload']}", :channel => "chaos_admin") do |x|
+      puts x
+    end
+
     render :js => r["payload"], :status => http_sub_status
   end
 
@@ -27,12 +32,12 @@ class SubscriberController < ApplicationController
 
     else
       if messages["channels"].present?
-        channels = messages["channels"]
+        channelOverride = messages["channels"]
       end
 
-      if channels.present?
+      if channelOverride.present?
 
-        {"payload" => "[ " + d + ", " + tt.to_json + ", " + channels.to_json + "]"}
+        {"payload" => "[ " + d + ", " + tt.to_json + ", " + channelOverride.to_json + "]"}
 
       else
         if http_sub_status != 200
