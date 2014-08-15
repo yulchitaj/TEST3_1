@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     @sub_key = params[:sub_key]
     @jsonp = params[:jsonp]
     @timetoken = params[:timetoken].to_i if params[:timetoken].present?
-    @channels = params[:channels].split(",") if params[:channels].present?
+    @real_subscribed_channels = params[:channels].split(",") if params[:channels].present?
 
     @uuid = params[:uuid]
     @pnsdk = params[:pnsdk]

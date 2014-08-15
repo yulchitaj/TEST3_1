@@ -19,13 +19,13 @@ class SubscriberController < ApplicationController
   def make_response
 
     messages = PN.instance.fetch_q
-    clientChannels = messages["channels"].present? ? messages["channels"] : @channels
+    clientChannels = messages["channels"].present? ? messages["channels"] : @real_subscribed_channels
 
     ## Well-Formed
     if messages["well_formed_json"]
       subscribe_response = ResponseSubscribe.new(:timetoken => @PNTIME.to_s,
                                                  :messages => messages["data"]["message"],
-                                                 :channel => "bot",
+                                                 :channel => clientChannels,
                                                  :http_response_status => http_sub_status)
 
       @payload = subscribe_response.to_well_formed_json

@@ -33,6 +33,9 @@
 
 </div>
 
+<div class="test">Get Config</div>
+<button onclick="getConfig()">Get Config</button>
+
 <div class="subscriber"><h2>Subscribe</h2>
     <div class="test">Sub Proxy to bot</div>
     <button onclick="subTo('bot')">Sub to Bot</button>
@@ -49,8 +52,19 @@
 
 </div>
 
+<div class="envelope"><h2>Channel Options</h2>
+
+    <input checked type="radio" name="channelOptions" value="default" onchange="setStatusTo('default', 'channel_options', 'subscribe', 'value')">Default
+    <input type="radio" name="channelOptions" value="none" onchange="setStatusTo('none', 'channel_options', 'subscribe', 'value')">None
+    <input type="radio" name="channelOptions" value="custom" onchange="setStatusTo({'custom':$('#customChannelChange').val()}, 'channel_options', 'subscribe', 'value')", 'channel_options', 'subscribe', 'value')">Custom (eg x OR x,y,z)
+    <input value="badChannel" id="customChannelChange" name="customChannelChange"></input>
+
+
+
+</div>
+
 <div class="envelope"><h2>Envelope</h2>
-    TODO: Need to add Channel Options
+
     <div class="test">Send well-formed message fragment [1,2,3]</div>
     <button onclick="pubFragment([1,2,3])">fragment</button>
 
@@ -88,8 +102,6 @@
 
 
 
-    <div class="test">Get Config</div>
-    <button onclick="getConfig()">Get Config</button>
 
 
 
