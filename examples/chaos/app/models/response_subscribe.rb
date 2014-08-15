@@ -1,10 +1,10 @@
 class ResponseSubscribe
-  include ApplicationHelper
+  #include ApplicationHelper
 
-  attr_accessor :messages, :timetoken, :channels, :fragmented, :response
+  attr_accessor :messages, :timetoken, :channels, :fragmented, :response, :http_response_status
 
   def initialize(options)
-
+    @http_response_status = options[:http_response_status]
     @response = options[:response]
 
     if @response.blank?
@@ -15,8 +15,8 @@ class ResponseSubscribe
       # either has response, or messages payload
       @messages = package(options[:messages]) || package(options[:message])
       @channels = package(options[:channels]) || package(options[:channel])
-    end
 
+    end
 
   end
 
@@ -33,7 +33,12 @@ class ResponseSubscribe
     end
   end
 
-  def to_known_json
+  def to_well_formed_json
+
+    if is_403?
+      return to_403
+    end
+
     if @channels.length < 2
       return [@messages, @timetoken.to_s].to_json
     else
@@ -59,17 +64,19 @@ class ResponseSubscribe
     end
   end
 
+  def is_403?
+    @http_response_status == 403
+  end
+
   def to_403
-    #return '{"status":' + http_sub_status.to_s + ',"service":"Access Manager","error":true,"message":"Forbidden","payload":{"channels":[' + @channels[0] + ']}}'
-    return {
-        "status" => http_sub_status,
+    {
+        "status" => http_response_status,
         "service" => "Access Manager",
         "error" => true,
         "message" => "Forbidden",
         "payload" => {"channels" => [@channels[0]]}
     }.to_json
   end
-
 end
 
 
