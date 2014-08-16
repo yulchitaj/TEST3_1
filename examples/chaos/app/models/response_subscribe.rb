@@ -39,16 +39,16 @@ class ResponseSubscribe
       return to_403
     end
 
-    if @channels.length < 2
+    if @channels.length == 0
       return [@messages, @timetoken.to_s].to_json
     else
-      return [@messages, @timetoken.to_s, [@channels.join(",")]].to_json
+      return [@messages, @timetoken.to_s, @channels.join(",")].to_json
     end
   end
 
   # TODO - known envelope, unknown / unpredictable values
   def to_fragmented_json
-    if @channels.length < 2
+    if @channels.length == 0
       return "[ " + @messages.to_json + ", " + @timetoken.to_json + "]"
     else
       return "[ " + @messages.to_json + ", " + @timetoken.to_json + ", " + @channels.join(",").to_json + "]"
@@ -57,7 +57,7 @@ class ResponseSubscribe
 
   # TODO - could be anything - malformed envelope, html, etc
   def to_unknown_response
-    if @channels.length < 2
+    if @channels.length == 0
       return "[ " + @messages.to_json + ", " + @timetoken.to_json + "]"
     else
       return "[ " + @messages.to_json + ", " + @timetoken.to_json + ", " + @channels.join(",").to_json + "]"

@@ -16,4 +16,8 @@ module ApplicationHelper
     ProxyConfig.instance.current_config
   end
 
+  def channel_options
+    ProxyConfig.instance.channel_options[:subscribe][:value]
+  end
+
 end

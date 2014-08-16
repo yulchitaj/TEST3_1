@@ -19,7 +19,22 @@ class SubscriberController < ApplicationController
   def make_response
 
     messages = PN.instance.fetch_q
-    clientChannels = messages["channels"].present? ? messages["channels"] : @real_subscribed_channels
+
+    if channel_options == "default"
+
+      if @real_subscribed_channels.length > 1
+        clientChannels = messages["channels"].present? ? messages["channels"] : @real_subscribed_channels[0]
+      else
+        clientChannels = ""
+      end
+
+    elsif channel_options == "none"
+      clientChannels = ""
+    elsif channel_options["custom"].present?
+      clientChannels = channel_options["custom"]
+    end
+
+
 
     ## Well-Formed
     if messages["well_formed_json"]
@@ -39,7 +54,7 @@ class SubscriberController < ApplicationController
       subscribe_response = ResponseSubscribe.new(:fragmented => true,
                                                  :timetoken => @PNTIME.to_s,
                                                  :messages => messages["data"]["message"],
-                                                 :channel => "bot",
+                                                 :channel => clientChannels,
                                                  :http_response_status => http_sub_status)
       @payload = subscribe_response.to_fragmented_json
 
