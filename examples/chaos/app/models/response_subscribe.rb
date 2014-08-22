@@ -14,8 +14,8 @@ class ResponseSubscribe
 
       # either has response, or messages payload
       @messages = package(options[:messages]) || package(options[:message])
-      @channels = package(options[:channels]) || package(options[:channel])
-
+      #@channels = package(options[:channels]) || package(options[:channel])
+      @channels = options[:channels] || options[:channel]
     end
 
   end
