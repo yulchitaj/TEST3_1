@@ -70,27 +70,29 @@ class AdminCallback
 
 
   def self.package_for_q(message, options = {"well_formed_json" => true})
-
     # puts "package for q: message: #{message.try(:message)}"
 
     if message.class == Pubnub::Envelope # If its a native PN message, ie, forwarded from subscribe
-      envelope = {"message" => message.message, "channel" => message.channel}
 
-    elsif options["from"] == "fragment"
-      envelope = {"message" => message}
+      payload = Payload.new(:from => "envelope",
+                            :well_formed_json => options["well_formed_json"],
+                            :message => message.message,
+                            :channels => message.channel)
 
-    elsif options["from"] == "response"
-      envelope = {"response" => message}
+    elsif options["from"] == "fragment" # custom message element fragment
+
+      payload = Payload.new(:from => "fragment",
+                            :well_formed_json => options["well_formed_json"],
+                            :message => message)
+
+    elsif options["from"] == "response" # custom full blown server response
+      payload = Payload.new(:from => "response",
+                            :well_formed_json => options["well_formed_json"],
+                            :message => message)
+
     end
 
-
-    response_data = {"data" => envelope, "well_formed_json" => options["well_formed_json"]}
-
-    if options["frag_channels"]
-      response_data["channels"] = options["frag_channels"]
-    end
-
-    PN.instance.sub_q.push(response_data)
+    PN.instance.sub_q.push(payload)
 
     puts "sub_q length is #{@sub_q.length}   "
 
