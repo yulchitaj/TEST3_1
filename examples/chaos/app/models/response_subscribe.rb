@@ -21,7 +21,7 @@ class ResponseSubscribe
   end
 
   def raw
-    return @response.to_json
+    return @response
   end
 
   def package(payload)

@@ -126,7 +126,7 @@ function onValueChange(event, opType, fragment, obj, service, key) {
         } else if (opType == "httpResponseCode") {
             setStatusTo(parseInt(fragment), 'http_status', 'subscribe', 'value')
         } else if (opType == "arbitraryResponse") {
-            pubFragment(JSON.parse(fragment), "arbitraryResponse");
+            pubFragment((fragment), "arbitraryResponse");
         }
     }
 }
