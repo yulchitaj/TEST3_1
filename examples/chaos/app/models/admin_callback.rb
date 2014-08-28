@@ -10,9 +10,7 @@ class AdminCallback
     ## http://www.pubnub.com/console/?channel=chaos_admin&origin=pubsub.pubnub.com&sub=demo-36&pub=demo-36&cipher=&ssl=false&secret=sec-c-YTk3OGFiNGQtMGExNS00ZDhkLTlkMzItN2UxZTBhMWRiYzk1&auth=
 
     if envelope.message["type"] == "admin"
-
       if envelope.message["run_mode"]
-
         handle_config(envelope)
 
 
@@ -22,8 +20,6 @@ class AdminCallback
 
         if envelope.message["to"].present?
           if envelope.message["to"]["ch"].present?
-
-
             @@pn.subscribe(:http_sync => false, :channel => envelope.message["to"]["ch"], :callback => method(:package_for_q))
 
           end
@@ -39,7 +35,6 @@ class AdminCallback
           # With Channel Attribute
           ##{"type":"admin", "output":"sub", "from":{"fragment":"[{\"action\""}, "channel":"foo"}
 
-
           options = Hash.new
 
           options["well_formed_json"] = false
@@ -54,9 +49,7 @@ class AdminCallback
           package_for_q(envelope.message["from"]["response"], options)
 
         end
-
       end
-
     end
   end
 

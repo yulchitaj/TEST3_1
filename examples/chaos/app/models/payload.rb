@@ -63,7 +63,7 @@ class Payload
       if is_well_formed? || !is_well_formed?
         if is_mxed || !is_mxed
           client_channels = channel_options["custom"]
-          return client_channels
+          return [client_channels]
         end
       end
     end
