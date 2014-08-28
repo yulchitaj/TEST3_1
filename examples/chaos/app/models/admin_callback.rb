@@ -42,14 +42,6 @@ class AdminCallback
 
           options = Hash.new
 
-          if  envelope.message["from"]["channel"].present?
-
-            # csv string of channels
-            frag_channels = envelope.message["from"]["channel"]
-            options = {"frag_channels" => frag_channels}
-
-          end
-
           options["well_formed_json"] = false
           options["from"] = "fragment"
           package_for_q(envelope.message["from"]["fragment"], options)

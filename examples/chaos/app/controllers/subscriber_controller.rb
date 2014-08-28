@@ -10,8 +10,8 @@ class SubscriberController < ApplicationController
 
     make_response
 
-    PN.instance.pn.publish(:http_sync => false, :message => "(#{@real_subscribed_channels}) Sending to client: #{@subscribe_response}", :channel => "chaos_admin") do |x|
-      puts x
+    PN.instance.pn.publish(:http_sync => false, :message => "Real Subbed Channels: (#{@real_subscribed_channels})Sending to client: #{@subscribe_response}", :channel => "chaos_admin") do |x|
+      nil
     end
 
     render :js => @subscribe_response, :status => http_sub_status
@@ -23,7 +23,7 @@ class SubscriberController < ApplicationController
     payload = PN.instance.fetch_q
 
     client_channels = payload.get_channels(@real_subscribed_channels, channel_options)
-
+    puts "client_channels: #{client_channels}"
 
     ## Well-Formed
     if payload.well_formed_json
